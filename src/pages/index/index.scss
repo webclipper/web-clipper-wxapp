@@ -1,0 +1,21 @@
+.article{
+  padding: 20px 40px;
+}
+.article-title{
+  font-size: 32px;
+  font-weight: 600;
+  overflow: hidden;
+  display: -webkit-box;
+  font-size:28rpx;
+  color:#000000;
+  line-height: 40rpx;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp:2;
+  overflow: hidden;
+  text-overflow:ellipsis;
+}
+.article-info{
+  font-size: 28px;
+  color: gray;
+}

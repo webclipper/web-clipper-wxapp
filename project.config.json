@@ -1,0 +1,16 @@
+{
+  "miniprogramRoot": "dist/",
+  "projectname": "taro-react-mini-program",
+  "description": "",
+  "appid": "wx7eb9ad284e3dedee",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "postcss": false,
+    "minified": false,
+    "newFeature": true
+  },
+  "compileType": "miniprogram",
+  "libVersion": "2.3.0",
+  "condition": {}
+}

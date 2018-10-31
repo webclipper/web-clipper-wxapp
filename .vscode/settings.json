@@ -1,0 +1,22 @@
+{
+  "eslint.autoFixOnSave": true,
+  "editor.formatOnSave": true,
+  "eslint.trace.server": "messages",
+  "eslint.packageManager": "yarn",
+  "eslint.enable": true,
+  "tslint.enable": false,
+  "editor.detectIndentation": false,
+  "editor.tabSize": 2,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    {
+      "language": "typescript",
+      "autoFix": true
+    },
+    {
+      "language": "typescriptreact",
+      "autoFix": true
+    }
+  ],
+}
