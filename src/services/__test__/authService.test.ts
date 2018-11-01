@@ -4,17 +4,18 @@ import { createStore } from 'redux';
 jest.mock('redux-saga');
 
 jest.mock('@tarojs/taro', () => {
-  const initData = {};
+  let initData = {};
 
-  const setStorageSyncMock = data => {
-    initData['key'] = data;
+  const setStorageSyncMock = (key, data) => {
+    initData[key] = data;
   };
   const removeStorageSyncMock = () => {
-    initData['key'] = null;
+    initData = {};
   };
-  const getStorageSyncMock = () => {
-    return initData['key'];
+  const getStorageSyncMock = key => {
+    return initData[key];
   };
+
   return {
     default: {
       setStorageSync: setStorageSyncMock,
@@ -40,6 +41,10 @@ describe('Test authService', () => {
         type: 'LOG_OuT'
       };
     };
+    store.dispatch = jest.fn();
+
+    AuthService.logout();
+    expect(store.dispatch).toBeCalledTimes(0);
 
     AuthService.init(store, action);
     expect(AuthService.get()).toEqual('');
