@@ -1,4 +1,3 @@
-
 import { switchTab } from '../router';
 
 import { take } from 'redux-saga/effects';
@@ -31,7 +30,7 @@ describe('test', () => {
   test('test', () => {
     const saga = switchTab();
     const data = {
-      data: {
+      playload: {
         url: '/pages/recent/index'
       }
     };
@@ -41,8 +40,6 @@ describe('test', () => {
       errMsg: 'switchTab:ok'
     });
     expect(Taro.switchTab).toBeCalledTimes(1);
-    expect(Taro.switchTab).toHaveBeenCalledWith(data.data);
+    expect(Taro.switchTab).toHaveBeenCalledWith(data.playload);
   });
-
 });
-
