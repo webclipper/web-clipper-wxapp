@@ -1,4 +1,4 @@
-import { UserDetailSerializer } from './../../interface/interface';
+import { UserDetailSerializer } from '../../interface/interface';
 
 export interface UserStateInterface {
   userInfo?: UserDetailSerializer;

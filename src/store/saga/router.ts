@@ -13,3 +13,12 @@ export function* switchTab() {
     yield Taro.switchTab(playload);
   }
 }
+
+export function* logout() {
+  while (true) {
+    yield take(ROUTER.LOGOUT) as any;
+    yield Taro.navigateTo({
+      url: '/pages/index/index'
+    });
+  }
+}

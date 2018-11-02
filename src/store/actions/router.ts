@@ -10,3 +10,9 @@ export const switchTab = (url: string) => {
     }
   };
 };
+
+export const logout = () => {
+  return {
+    type: ROUTER.LOGOUT
+  };
+};
