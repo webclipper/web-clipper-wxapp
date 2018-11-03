@@ -1,8 +1,13 @@
+import { getUser } from '../../services/api';
+import authService from '../..//services/authService';
+import * as routerAction from './../actions/router';
+import { refreshUserInfo } from './../actions/user';
+
 import actionTypes from '../actionTypes';
-const { ROUTER } = actionTypes;
+const { ROUTER, USER } = actionTypes;
 import Taro from '@tarojs/taro';
 import { delay } from 'redux-saga';
-import { take } from 'redux-saga/effects';
+import { take, takeLatest, put } from 'redux-saga/effects';
 
 export function* switchTab() {
   while (true) {
@@ -17,8 +22,48 @@ export function* switchTab() {
 export function* logout() {
   while (true) {
     yield take(ROUTER.LOGOUT) as any;
-    yield Taro.navigateTo({
-      url: '/pages/index/index'
-    });
+    const homePath = '/pages/index/index';
+    const currentPath = Taro.getApp().$router.params.path;
+    if (`/${currentPath}` !== homePath) {
+      yield Taro.navigateTo({
+        url: homePath
+      });
+    }
   }
+}
+
+function* login(action: routerAction.LoginAction) {
+  let { playload } = action;
+  if (!playload || !playload.token) {
+    Taro.showToast({
+      title: '必须输入token',
+      icon: 'none'
+    });
+    return;
+  }
+  try {
+    authService.set(playload.token);
+    const response = yield getUser();
+    yield put(refreshUserInfo(response.data));
+    yield put(routerAction.switchTab('/pages/recent/index'));
+  } catch (error) {
+    if (error.message.indexOf('401') !== -1) {
+      Taro.showToast({
+        title: 'token错误',
+        icon: 'none'
+      });
+    } else {
+      Taro.showToast({
+        title: '网络错误',
+        icon: 'none'
+      });
+    }
+  }
+}
+
+export function* routerSages() {
+  yield takeLatest<{ type: string; playload: { token: string } }>(
+    ROUTER.LOGIN,
+    login
+  );
 }

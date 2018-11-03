@@ -1,11 +1,10 @@
 /*eslint "no-unused-vars": ["error", { "varsIgnorePattern": "Taro|minus|goToTheEnd" }],*/
 import { ComponentClass } from 'react';
 import Taro, { Component, Config } from '@tarojs/taro';
-import { View, Button } from '@tarojs/components';
-
+import { View, Button, Input } from '@tarojs/components';
+import { login, switchTab } from '../../store/actions/router';
 import { connect } from '@tarojs/redux';
 import { add, minus, addAsync } from '../../store/actions/counter';
-import { switchTab } from '../../store/actions/router';
 
 import './index.scss';
 
@@ -19,11 +18,13 @@ type PageDispatchProps = {
   minus: () => void;
   addAsync: () => void;
   switchTab: (url: string) => void;
+  login: (token: string) => void;
 };
 
 type PageOwnProps = {};
 
 type PageState = {
+  token: string;
 };
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
@@ -32,29 +33,50 @@ type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
   ({ counter }) => ({
     counter
     }),
-  (dispatch) => ({
-    add() { dispatch(add()) },
-    minus() { dispatch(minus()) },
-    addAsync() { dispatch(addAsync()) },
-    switchTab(url) { dispatch(switchTab(url)) }
-    }))
+  dispatch => ({
+    add() {
+    dispatch(add());
+    },
+    minus() {
+    dispatch(minus());
+    },
+    addAsync() {
+    dispatch(addAsync());
+    },
+    login(token) {
+    dispatch(login(token));
+    },
+    switchTab(url) {
+    dispatch(switchTab(url));
+    }
+    })
+)
 class Index extends Component<IProps, PageState> {
-
   config: Config = {
     navigationBarTitleText: '语雀剪藏'
+  };
+
+  constructor() {
+    super();
+    this.state = {
+      token: ''
+    };
   }
 
+  handleInput = (e: any) => {
+    this.setState({
+      token: e.detail.value
+    });
+  };
+
   handleSwitchTab = () => {
-    this.props.switchTab('/pages/recent/index');
-  }
+    this.props.login(this.state.token);
+  };
 
   render() {
     return (
       <View>
-        <View style={{ textAlign: 'center' }}>{this.props.counter.count}</View>
-        <Button onClick={this.props.add}>加</Button>
-        <Button onClick={this.props.minus}> 减</Button>
-        <Button onClick={this.props.addAsync}>异步加</Button>
+        <Input placeholder="请输入token" onInput={this.handleInput} />
         <Button onClick={this.handleSwitchTab}>进入主页</Button>
       </View>
     );

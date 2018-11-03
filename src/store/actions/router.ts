@@ -16,3 +16,19 @@ export const logout = () => {
     type: ROUTER.LOGOUT
   };
 };
+
+export interface LoginAction {
+  type: string;
+  playload: {
+    token: string;
+  };
+}
+
+export const login = (token: string) => {
+  return {
+    type: ROUTER.LOGIN,
+    playload: {
+      token
+    }
+  };
+};

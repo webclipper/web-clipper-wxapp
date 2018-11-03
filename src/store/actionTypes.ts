@@ -6,9 +6,11 @@ const COUNTER = {
 
 const ROUTER = {
   /** 退出登录 返回初始页面 */
-  LOGOUT: 'LOGOUT',
+  LOGOUT: 'ROUTER_LOGOUT',
   /** 切换 Tab */
-  SWITCH_TAB: 'ROUTER_SWITCH_TAB'
+  SWITCH_TAB: 'ROUTER_SWITCH_TAB',
+  /** 登陆请求 */
+  LOGIN: 'ROUTER_LOGIN'
 };
 
 const USER = {
