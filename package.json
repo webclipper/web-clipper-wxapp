@@ -5,12 +5,14 @@
   "description": "",
   "main": "index.js",
   "pre-commit": [
+    "lint",
     "test"
   ],
   "scripts": {
     "commit": "git-cz",
     "build": "taro build --type weapp",
     "dev": "npm run build -- --watch",
+    "lint": "eslint --ext .js,.ts,.tsx --ignore-pattern bad.* .",
     "test": "jest"
   },
   "author": "",
