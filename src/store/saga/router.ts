@@ -4,7 +4,7 @@ import * as routerAction from './../actions/router';
 import { refreshUserInfo } from './../actions/user';
 
 import actionTypes from '../actionTypes';
-const { ROUTER, USER } = actionTypes;
+const { ROUTER } = actionTypes;
 import Taro from '@tarojs/taro';
 import { delay } from 'redux-saga';
 import { take, takeLatest, put } from 'redux-saga/effects';
