@@ -2338,6 +2338,7 @@ date-now@^0.1.4:
 dayjs@^1.7.7:
   version "1.7.7"
   resolved "http://registry.npm.taobao.org/dayjs/download/dayjs-1.7.7.tgz#8df20f78ac2476e3f5348ef49f8f22ebc3016370"
+  integrity sha1-jfIPeKwkduP1NI70n48i68MBY3A=
 
 debug@*:
   version "4.1.0"
