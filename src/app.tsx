@@ -15,7 +15,7 @@ class App extends Component {
     pages: [
       'pages/recent/index',
       'pages/index/index',
-      'pages/repo/index',
+      'pages/recent/detail',
       'pages/user/index'
     ],
     tabBar: {
@@ -28,12 +28,6 @@ class App extends Component {
           iconPath: 'static/icon-news.png',
           pagePath: 'pages/recent/index',
           text: '最新'
-        },
-        {
-          selectedIconPath: 'static/icon-books-select.png',
-          iconPath: 'static/icon-books.png',
-          pagePath: 'pages/repo/index',
-          text: '文件夹'
         },
         {
           selectedIconPath: 'static/icon-user-select.png',

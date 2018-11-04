@@ -27,6 +27,7 @@
     "@tarojs/taro-h5": "^1.0.7",
     "@tarojs/taro-weapp": "^1.0.7",
     "dayjs": "^1.7.7",
+    "immutability-helper": "^2.8.1",
     "nervjs": "^1.3.0",
     "parse5": "^5.1.0",
     "redux": "^4.0.0",
@@ -34,6 +35,7 @@
     "redux-saga": "^0.16.2",
     "redux-thunk": "^2.3.0",
     "remarkable": "^1.7.1",
+    "ts-action": "^8.0.0",
     "ts-jest": "^23.10.4"
   },
   "config": {

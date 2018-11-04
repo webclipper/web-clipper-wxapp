@@ -1,7 +1,11 @@
-import { takeLatest, put } from 'redux-saga/effects';
+import { takeLatest, put, take } from 'redux-saga/effects';
 import actionTypes from '../actionTypes';
-import { getUserDocs } from '../../services/api';
-import { initCreatedDocList } from './../actions/doc';
+import { getUserDocs, getDocDetail } from '../../services/api';
+import {
+  initCreatedDocList,
+  fetchDocumentDetailSuccess,
+  fetchDocumentDetailError
+} from './../actions/doc';
 import Taro from '@tarojs/taro';
 
 const { DOC } = actionTypes;
@@ -21,6 +25,21 @@ function* initCreatedDocListSaga() {
         title: '网络错误',
         icon: 'none'
       });
+    }
+  }
+}
+
+export function* fetchDocumentDetailRequestHandler() {
+  while (true) {
+    const response = yield take(DOC.FETCH_DOCUMENT_DETAIL_REQUEST) as any;
+    try {
+      const {
+        playload: { id, repoId }
+      } = response;
+      const detail = yield getDocDetail(repoId, id);
+      yield put(fetchDocumentDetailSuccess(detail.data));
+    } catch (error) {
+      yield put(fetchDocumentDetailError());
     }
   }
 }

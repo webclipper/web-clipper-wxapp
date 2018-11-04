@@ -3926,6 +3926,13 @@ image-size@~0.5.0:
   version "0.5.5"
   resolved "http://registry.npm.taobao.org/image-size/download/image-size-0.5.5.tgz#09dfd4ab9d20e29eb1c3e80b8990378df9e3cb9c"
 
+immutability-helper@^2.8.1:
+  version "2.8.1"
+  resolved "http://registry.npm.taobao.org/immutability-helper/download/immutability-helper-2.8.1.tgz#3c5ec05fcd83676bfae7146f319595243ad904f4"
+  integrity sha1-PF7AX82DZ2v65xRvMZWVJDrZBPQ=
+  dependencies:
+    invariant "^2.2.0"
+
 import-cwd@^2.0.0:
   version "2.1.0"
   resolved "http://registry.npm.taobao.org/import-cwd/download/import-cwd-2.1.0.tgz#aa6cf36e722761285cb371ec6519f53e2435b0a9"
@@ -7842,6 +7849,11 @@ trim-right@^1.0.1:
   resolved "http://registry.npm.taobao.org/true-case-path/download/true-case-path-1.0.3.tgz#f813b5a8c86b40da59606722b144e3225799f47d"
   dependencies:
     glob "^7.1.2"
+
+ts-action@^8.0.0:
+  version "8.0.0"
+  resolved "http://registry.npm.taobao.org/ts-action/download/ts-action-8.0.0.tgz#4cce6898bdeda537212447bef234855d1c83702b"
+  integrity sha1-TM5omL3tpTchJEe+8jSFXRyDcCs=
 
 ts-jest@^23.10.4:
   version "23.10.4"

@@ -8,12 +8,13 @@ interface IPrors {
   title: string;
   description: string;
   created_at: string;
+  onclick: () => void;
 }
 
 export default class DocumentListNode extends Component<IPrors> {
   render() {
     return (
-      <View className="documentList">
+      <View className="documentList" onClick={this.props.onclick}>
         <Text className="documentList_title">{this.props.title}</Text>
         <Text className="documentList_description">{this.props.title}</Text>
         <Text className="documentList_time">

@@ -7,6 +7,8 @@ import { connect } from '@tarojs/redux';
 import './index.scss';
 import { DocStateInterface } from 'src/store/reducers/doc';
 import { initCreatedDocListRequest } from '../../store/actions/doc';
+import { navigateTo } from '../../store/actions/router';
+
 import DocumentListNode from '../../components/document';
 
 type PageStateProps = {
@@ -15,6 +17,7 @@ type PageStateProps = {
 
 type PageDispatchProps = {
   initCreatedDocListRequest: () => void;
+  navigateTo: (param: Taro.navigateTo.Param) => void;
 };
 
 type PageOwnProps = {};
@@ -30,6 +33,9 @@ type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
   dispatch => ({
     initCreatedDocListRequest() {
     dispatch(initCreatedDocListRequest());
+    },
+    navigateTo(param: Taro.navigateTo.Param) {
+    dispatch(navigateTo(param));
     }
     })
 )
@@ -40,6 +46,14 @@ class Index extends Component<IProps, PageState> {
 
   componentDidMount = () => {
     this.props.initCreatedDocListRequest();
+  };
+
+  handleClickNode = documentNode => {
+    this.props.navigateTo({
+      url: `/pages/recent/detail?id=${documentNode.id}&repo_id=${
+        documentNode.book.id
+      }`
+    });
   };
 
   render() {
@@ -57,6 +71,7 @@ class Index extends Component<IProps, PageState> {
                 title={o.title}
                 description={o.description}
                 created_at={o.created_at}
+                onclick={this.handleClickNode.bind(this, o)}
               />
             );
           })

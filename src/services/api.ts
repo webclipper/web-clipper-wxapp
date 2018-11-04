@@ -24,14 +24,18 @@ const requsetWithToken = async (param: Taro.request.Param<any> | string) => {
       }
     });
   }
-  const result = await Taro.request(requestParam);
-  if (result.statusCode === 200) {
-    return result.data;
+  try {
+    const result = await Taro.request(requestParam);
+    if (result.statusCode === 200) {
+      return result.data;
+    }
+    if (result.statusCode === 401) {
+      AuthService.logout();
+    }
+    throw new Error(JSON.stringify(result.data));
+  } catch (error) {
+    throw new Error(error);
   }
-  if (result.statusCode === 401) {
-    AuthService.logout();
-  }
-  throw new Error(JSON.stringify(result.data));
 };
 
 const getUserDocs = (): Promise<Taro.request.Promised<DocSerializer>> => {
@@ -42,4 +46,10 @@ const getUser = (): Promise<Taro.request.Promised<UserDetailSerializer>> => {
   return requsetWithToken('user');
 };
 
-export { getUserDocs, getUser };
+const getDocDetail = (
+  repoId: string,
+  docuemntId: string
+): Promise<Taro.request.Promised<any>> => {
+  return requsetWithToken(`repos/${repoId}/docs/${docuemntId}?raw=1`);
+};
+export { getUserDocs, getUser, getDocDetail };

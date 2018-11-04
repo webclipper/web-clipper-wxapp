@@ -7,7 +7,7 @@ import actionTypes from '../actionTypes';
 const { ROUTER } = actionTypes;
 import Taro from '@tarojs/taro';
 import { delay } from 'redux-saga';
-import { take, takeLatest, put } from 'redux-saga/effects';
+import { take, takeLatest, put, fork } from 'redux-saga/effects';
 
 export function* switchTab() {
   while (true) {
@@ -16,6 +16,13 @@ export function* switchTab() {
       yield delay(100);
     }
     yield Taro.switchTab(playload);
+  }
+}
+
+export function* navigateTo() {
+  while (true) {
+    const { playload } = yield take(ROUTER.NAVIGATE_TO) as any;
+    yield Taro.navigateTo(playload);
   }
 }
 
@@ -62,6 +69,7 @@ function* login(action: routerAction.LoginAction) {
 }
 
 export function* routerSages() {
+  yield fork(navigateTo);
   yield takeLatest<{ type: string; playload: { token: string } }>(
     ROUTER.LOGIN,
     login

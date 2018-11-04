@@ -11,6 +11,13 @@ export const switchTab = (url: string) => {
   };
 };
 
+export const navigateTo = (param: Taro.navigateTo.Param) => {
+  return {
+    type: ROUTER.NAVIGATE_TO,
+    playload: param
+  };
+};
+
 export const logout = () => {
   return {
     type: ROUTER.LOGOUT
