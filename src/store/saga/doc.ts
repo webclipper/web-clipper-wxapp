@@ -1,10 +1,12 @@
+import { isType } from 'ts-action';
 import { takeLatest, put, take } from 'redux-saga/effects';
 import actionTypes from '../actionTypes';
 import { getUserDocs, getDocDetail } from '../../services/api';
 import {
   initCreatedDocList,
   fetchDocumentDetailSuccess,
-  fetchDocumentDetailError
+  fetchDocumentDetailError,
+  fetchDocumentDetailRequest
 } from './../actions/doc';
 import Taro from '@tarojs/taro';
 
@@ -31,13 +33,13 @@ function* initCreatedDocListSaga() {
 
 export function* fetchDocumentDetailRequestHandler() {
   while (true) {
-    const response = yield take(DOC.FETCH_DOCUMENT_DETAIL_REQUEST) as any;
     try {
-      const {
-        playload: { id, repoId }
-      } = response;
-      const detail = yield getDocDetail(repoId, id);
-      yield put(fetchDocumentDetailSuccess(detail.data));
+      const action = yield take(DOC.FETCH_DOCUMENT_DETAIL_REQUEST);
+      if (isType(action, fetchDocumentDetailRequest)) {
+        const { id, repoId } = action.playload;
+        const detail = yield getDocDetail(repoId, id);
+        yield put(fetchDocumentDetailSuccess(detail.data));
+      }
     } catch (error) {
       yield put(fetchDocumentDetailError());
     }

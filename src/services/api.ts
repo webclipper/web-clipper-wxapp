@@ -47,8 +47,8 @@ const getUser = (): Promise<Taro.request.Promised<UserDetailSerializer>> => {
 };
 
 const getDocDetail = (
-  repoId: string,
-  docuemntId: string
+  repoId: number,
+  docuemntId: number
 ): Promise<Taro.request.Promised<any>> => {
   return requsetWithToken(`repos/${repoId}/docs/${docuemntId}?raw=1`);
 };
