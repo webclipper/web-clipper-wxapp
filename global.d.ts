@@ -8,3 +8,10 @@ declare module '*.less';
 declare module '*.scss';
 declare module '*.sass';
 declare module '*.styl';
+
+/* eslint-disable */
+declare namespace JSX {
+  interface IntrinsicElements {
+    block: any;
+  }
+}
