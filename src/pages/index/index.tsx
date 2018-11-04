@@ -4,7 +4,6 @@ import Taro, { Component, Config } from '@tarojs/taro';
 import { View, Button, Input } from '@tarojs/components';
 import { login, switchTab } from '../../store/actions/router';
 import { connect } from '@tarojs/redux';
-import { add, minus, addAsync } from '../../store/actions/counter';
 
 import './index.scss';
 
@@ -14,9 +13,6 @@ type PageStateProps = {
   };
 };
 type PageDispatchProps = {
-  add: () => void;
-  minus: () => void;
-  addAsync: () => void;
   switchTab: (url: string) => void;
   login: (token: string) => void;
 };
@@ -34,15 +30,6 @@ type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
     counter
     }),
   dispatch => ({
-    add() {
-    dispatch(add());
-    },
-    minus() {
-    dispatch(minus());
-    },
-    addAsync() {
-    dispatch(addAsync());
-    },
     login(token) {
     dispatch(login(token));
     },
