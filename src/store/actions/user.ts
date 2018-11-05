@@ -1,3 +1,4 @@
+import { action } from 'ts-action';
 import { UserDetailSerializer } from './../../interface/interface';
 import actionTypes from '../actionTypes';
 
@@ -18,3 +19,5 @@ export const refreshUserInfo = (userInfo: UserDetailSerializer) => {
     }
   };
 };
+
+export const refreshUserInfoRequest = action(USER.REFRESH_USER_INFO_REQUEST);

@@ -16,7 +16,9 @@ export default class DocumentListNode extends Component<IPrors> {
     return (
       <View className="documentList" onClick={this.props.onclick}>
         <Text className="documentList_title">{this.props.title}</Text>
-        <Text className="documentList_description">{this.props.title}</Text>
+        <Text className="documentList_description">
+          {this.props.description}
+        </Text>
         <Text className="documentList_time">
           {dayjs(this.props.created_at).format('YYYY-MM-DD')}
         </Text>

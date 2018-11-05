@@ -12,6 +12,7 @@ const ROUTER = actionTypeReset('ROUTER', {
 });
 
 const USER = actionTypeReset('USER', {
+  /** 请求刷新用户信息 */
   REFRESH_USER_INFO_REQUEST: '',
   REFRESH_USER_INFO: ''
 });

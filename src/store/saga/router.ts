@@ -2,7 +2,6 @@ import { getUser } from '../../services/api';
 import authService from '../..//services/authService';
 import * as routerAction from './../actions/router';
 import { refreshUserInfo } from './../actions/user';
-
 import actionTypes from '../actionTypes';
 const { ROUTER } = actionTypes;
 import Taro from '@tarojs/taro';
@@ -28,11 +27,13 @@ export function* navigateTo() {
 
 export function* logout() {
   while (true) {
+    console.log('logout');
     yield take(ROUTER.LOGOUT) as any;
     const homePath = '/pages/index/index';
     const currentPath = Taro.getApp().$router.params.path;
+    authService.clear();
     if (`/${currentPath}` !== homePath) {
-      yield Taro.navigateTo({
+      yield Taro.redirectTo({
         url: homePath
       });
     }

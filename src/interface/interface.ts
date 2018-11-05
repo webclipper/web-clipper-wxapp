@@ -31,6 +31,7 @@ export interface DocSerializer {
 export interface UserDetailSerializer {
   id: string;
   books_count: string;
+  description: string;
   account_id: string;
   login: string;
   name: string;

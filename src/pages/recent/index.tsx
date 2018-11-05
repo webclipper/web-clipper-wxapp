@@ -1,7 +1,7 @@
 /*eslint "no-unused-vars": ["error", { "varsIgnorePattern": "Taro|minus|goToTheEnd" }],*/
 import { ComponentClass } from 'react';
 import Taro, { Component, Config } from '@tarojs/taro';
-import { Text, ScrollView } from '@tarojs/components';
+import { Text, View } from '@tarojs/components';
 import { connect } from '@tarojs/redux';
 
 import './index.scss';
@@ -41,7 +41,9 @@ type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
 )
 class Index extends Component<IProps, PageState> {
   config: Config = {
-    navigationBarTitleText: '最新'
+    enablePullDownRefresh: true,
+    navigationBarTitleText: '最新',
+    backgroundTextStyle: 'dark'
   };
 
   componentDidMount = () => {
@@ -56,11 +58,14 @@ class Index extends Component<IProps, PageState> {
     });
   };
 
+  onPullDownRefresh = () => {
+    //Todo 下拉刷新
+  };
+
   render() {
     const empty = this.props.doc.createdDocs.length === 0;
-
     return (
-      <ScrollView scrollX={false} scrollY={true} className="view">
+      <View>
         {empty ? (
           <Text>加载中</Text>
         ) : (
@@ -76,7 +81,7 @@ class Index extends Component<IProps, PageState> {
             );
           })
         )}
-      </ScrollView>
+      </View>
     );
   }
 }
