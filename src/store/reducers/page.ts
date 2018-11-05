@@ -8,16 +8,36 @@ export enum pageStataus {
   ERROR = 'ERROR'
 }
 
-export interface DocStateInterface {
+export interface PageStateInterface {
+  createdDocumentList: pageStataus;
   documentDetail: pageStataus;
 }
 
 const defaultState = {
+  createdDocumentList: pageStataus.NONE,
   documentDetail: pageStataus.NONE
 };
 
 export default function page(state = defaultState, action) {
   switch (action.type) {
+    case DOC.CREATED_DOCUMENT_PULL_DOWN_REFRESH_REQUEST: {
+      return {
+        ...state,
+        createdDocumentList: pageStataus.LOADING
+      };
+    }
+    case DOC.INIT_CREATED_DOC_LIST_REQUEST: {
+      return {
+        ...state,
+        createdDocumentList: pageStataus.LOADING
+      };
+    }
+    case DOC.INIT_CREATED_DOC_LIST: {
+      return {
+        ...state,
+        createdDocumentList: pageStataus.NONE
+      };
+    }
     case DOC.FETCH_DOCUMENT_DETAIL_REQUEST: {
       return {
         ...state,

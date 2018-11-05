@@ -8,6 +8,7 @@ interface IPrors {
   title: string;
   description: string;
   created_at: string;
+  bookName: string;
   onclick: () => void;
 }
 
@@ -20,7 +21,9 @@ export default class DocumentListNode extends Component<IPrors> {
           {this.props.description}
         </Text>
         <Text className="documentList_time">
-          {dayjs(this.props.created_at).format('YYYY-MM-DD')}
+          {`${this.props.bookName} ${dayjs(this.props.created_at).format(
+            'YYYY-MM-DD'
+          )}`}
         </Text>
       </View>
     );

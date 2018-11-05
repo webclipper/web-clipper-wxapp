@@ -13,9 +13,11 @@ import {
 import { navigateTo } from '../../store/actions/router';
 
 import DocumentListNode from '../../components/document';
+import { PageStateInterface } from '../../store/reducers/page';
 
 type PageStateProps = {
   doc: DocStateInterface;
+  page: PageStateInterface;
 };
 
 type PageDispatchProps = {
@@ -31,8 +33,9 @@ type PageState = {};
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
 
 @connect(
-  ({ doc }) => ({
-    doc
+  ({ doc, page }) => ({
+    doc,
+    page
     }),
   dispatch => ({
     createdDocumentPulldownRefreshRequest() {
@@ -69,25 +72,30 @@ class Index extends Component<IProps, PageState> {
     this.props.createdDocumentPulldownRefreshRequest();
   };
 
+  onReachBottom = () => {
+    console.log('1');
+  };
+
   render() {
     const empty = this.props.doc.createdDocs.length === 0;
+    const emptyView = <Text>加载中</Text>;
+
     return (
       <View>
-        {empty ? (
-          <Text>加载中</Text>
-        ) : (
-          this.props.doc.createdDocs.map(o => {
+        {empty
+          ? emptyView
+          : this.props.doc.createdDocs.map(o => {
             return (
               <DocumentListNode
                 key={o.id}
                 title={o.title}
+                bookName={o.book.name}
                 description={o.description}
                 created_at={o.created_at}
                 onclick={this.handleClickNode.bind(this, o)}
               />
             );
-          })
-        )}
+          })}
       </View>
     );
   }
