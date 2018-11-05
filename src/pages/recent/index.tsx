@@ -73,12 +73,12 @@ class Index extends Component<IProps, PageState> {
   };
 
   onReachBottom = () => {
-    console.log('1');
+    //todo 滚动加载
   };
 
   render() {
     const empty = this.props.doc.createdDocs.length === 0;
-    const emptyView = <Text>加载中</Text>;
+    const emptyView = <Text style={{ textAlign: 'center' }}>还没有数据</Text>;
 
     return (
       <View>
@@ -96,6 +96,8 @@ class Index extends Component<IProps, PageState> {
               />
             );
           })}
+        {/* <View className="loading-footer">正在加载...</View>
+        <View className="footer">我是有底线的</View> */}
       </View>
     );
   }

@@ -1,0 +1,20 @@
+.footer {
+  padding: 20px;
+  text-align: center;
+  color: #cccccc;
+  font-size: 26px;
+}
+.footer::after {
+  content: ("————————");
+  margin-left: 10px;
+}
+.footer::before {
+  content: ("————————");
+  margin-right: 10px;
+}
+.loading-footer {
+  padding: 20px;
+  text-align: center;
+  color: #cccccc;
+  font-size: 26px;
+}
