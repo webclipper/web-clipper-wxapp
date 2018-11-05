@@ -1,5 +1,5 @@
 import { isType } from 'ts-action';
-import { takeLatest, put, take } from 'redux-saga/effects';
+import { takeLatest, put, take, fork } from 'redux-saga/effects';
 import actionTypes from '../actionTypes';
 import { getUserDocs, getDocDetail } from '../../services/api';
 import {
@@ -39,6 +39,18 @@ export function* fetchDocumentDetailRequestHandler() {
   }
 }
 
-export function* docSages() {
+function* docSages() {
   yield takeLatest(DOC.INIT_CREATED_DOC_LIST_REQUEST, initCreatedDocListSaga);
+}
+
+function* createdDocumentPulldownRefreshRequestSage() {
+  yield takeLatest(DOC.CREATED_DOCUMENT_PULL_DOWN_REFRESH_REQUEST, function* () {
+    yield* initCreatedDocListSaga();
+    Taro.stopPullDownRefresh();
+  });
+}
+
+export function* docRootSaga() {
+  yield fork(docSages);
+  yield fork(createdDocumentPulldownRefreshRequestSage);
 }

@@ -8,6 +8,11 @@ export const initCreatedDocListRequest = action(
   DOC.INIT_CREATED_DOC_LIST_REQUEST
 );
 
+/** 最新文档页面的下拉刷新 */
+export const createdDocumentPulldownRefreshRequest = action(
+  DOC.CREATED_DOCUMENT_PULL_DOWN_REFRESH_REQUEST
+);
+
 export const fetchDocumentDetailRequest = action(
   DOC.FETCH_DOCUMENT_DETAIL_REQUEST,
   (repoId: number, id: number) => ({

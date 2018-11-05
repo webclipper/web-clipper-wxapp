@@ -6,7 +6,10 @@ import { connect } from '@tarojs/redux';
 
 import './index.scss';
 import { DocStateInterface } from 'src/store/reducers/doc';
-import { initCreatedDocListRequest } from '../../store/actions/doc';
+import {
+  initCreatedDocListRequest,
+  createdDocumentPulldownRefreshRequest
+} from '../../store/actions/doc';
 import { navigateTo } from '../../store/actions/router';
 
 import DocumentListNode from '../../components/document';
@@ -17,6 +20,7 @@ type PageStateProps = {
 
 type PageDispatchProps = {
   initCreatedDocListRequest: () => void;
+  createdDocumentPulldownRefreshRequest: () => void;
   navigateTo: (param: Taro.navigateTo.Param) => void;
 };
 
@@ -31,6 +35,9 @@ type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
     doc
     }),
   dispatch => ({
+    createdDocumentPulldownRefreshRequest() {
+    dispatch(createdDocumentPulldownRefreshRequest());
+    },
     initCreatedDocListRequest() {
     dispatch(initCreatedDocListRequest());
     },
@@ -59,7 +66,7 @@ class Index extends Component<IProps, PageState> {
   };
 
   onPullDownRefresh = () => {
-    //Todo 下拉刷新
+    this.props.createdDocumentPulldownRefreshRequest();
   };
 
   render() {

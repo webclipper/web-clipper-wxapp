@@ -23,7 +23,9 @@ const DOC = actionTypeReset('DOC', {
   FETCH_DOCUMENT_DETAIL_REQUEST: '',
   FETCH_DOCUMENT_DETAIL_SUCCESS: '',
   FETCH_DOCUMENT_DETAIL_ERROR: '',
-  INIT_CREATED_DOC_LIST_REQUEST: ''
+  INIT_CREATED_DOC_LIST_REQUEST: '',
+  /** 最新文档页面的下拉刷新 */
+  CREATED_DOCUMENT_PULL_DOWN_REFRESH_REQUEST: ''
 });
 
 function actionTypeReset<T>(nameSpace, object: T): T {
