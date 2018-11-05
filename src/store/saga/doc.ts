@@ -14,20 +14,13 @@ const { DOC } = actionTypes;
 
 function* initCreatedDocListSaga() {
   try {
-    const response = yield getUserDocs();
+    const response = yield getUserDocs({ offset: 0 });
     yield put(initCreatedDocList(response.data));
   } catch (error) {
-    if (error.message.indexOf('401') !== -1) {
-      Taro.showToast({
-        title: 'token错误',
-        icon: 'none'
-      });
-    } else {
-      Taro.showToast({
-        title: '网络错误',
-        icon: 'none'
-      });
-    }
+    Taro.showToast({
+      title: '请求错误',
+      icon: 'none'
+    });
   }
 }
 

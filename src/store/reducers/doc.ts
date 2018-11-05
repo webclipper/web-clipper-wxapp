@@ -5,7 +5,6 @@ import update from 'immutability-helper';
 const { DOC } = actionTypes;
 
 export interface DocStateInterface {
-  page: number;
   docDetailMap: {
     [key: string]: {
       title: string;
@@ -16,7 +15,6 @@ export interface DocStateInterface {
 }
 
 const defaultState: DocStateInterface = {
-  page: 1,
   createdDocs: [],
   docDetailMap: {}
 };
@@ -26,7 +24,6 @@ export default function doc(state = defaultState, action) {
     case DOC.INIT_CREATED_DOC_LIST: {
       return {
         ...state,
-        page: 1,
         createdDocs: action.playload.createdDocs
       };
     }
