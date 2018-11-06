@@ -64,7 +64,7 @@ class Index extends Component<IProps, PageState> {
       <View className="document-detail">
         <Text className="document-detail_title">{data.title}</Text>
         <View className="document-detail_content">
-          <Markdown md={data.body} />
+          <Markdown md={data && data.body.replace(/<a name.*a>/g, '')} />
         </View>
       </View>
     );
