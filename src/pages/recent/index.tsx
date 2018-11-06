@@ -1,4 +1,5 @@
 /*eslint "no-unused-vars": ["error", { "varsIgnorePattern": "Taro|minus|goToTheEnd" }],*/
+/*eslint "taro/this-props-function": 0,*/
 import { ComponentClass } from 'react';
 import Taro, { Component, Config } from '@tarojs/taro';
 import { Text, View } from '@tarojs/components';

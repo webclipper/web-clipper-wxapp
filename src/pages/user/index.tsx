@@ -1,4 +1,5 @@
 /*eslint "no-unused-vars": ["error", { "varsIgnorePattern": "Taro|minus|goToTheEnd" }],*/
+/*eslint "taro/this-props-function": 0,*/
 import { ComponentClass } from 'react';
 import Taro, { Component, Config } from '@tarojs/taro';
 import { connect } from '@tarojs/redux';
@@ -47,7 +48,7 @@ class Index extends Component<IProps, PageState> {
   };
 
   logout = () => {
-    this.props.logout();
+    this.props.logout(); /** eslint--disableline */
   };
 
   render() {
