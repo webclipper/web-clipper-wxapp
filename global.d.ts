@@ -15,3 +15,4 @@ declare namespace JSX {
     block: any;
   }
 }
+type Optional<T> = { [P in keyof T]?: T[P] };

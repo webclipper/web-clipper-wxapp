@@ -80,7 +80,6 @@ class Index extends Component<IProps, PageState> {
   render() {
     const empty = this.props.doc.createdDocs.length === 0;
     const emptyView = <Text style={{ textAlign: 'center' }}>还没有数据</Text>;
-
     return (
       <View>
         {empty

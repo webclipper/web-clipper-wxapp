@@ -27,7 +27,6 @@ export function* navigateTo() {
 
 export function* logout() {
   while (true) {
-    console.log('logout');
     yield take(ROUTER.LOGOUT) as any;
     const homePath = '/pages/index/index';
     const currentPath = Taro.getApp().$router.params.path;
