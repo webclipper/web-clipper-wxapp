@@ -78,24 +78,35 @@ class Index extends Component<IProps, PageState> {
   };
 
   render() {
+    const initStatus = this.props.page.createdDocumentPageInitStatus;
     const empty = this.props.doc.createdDocs.length === 0;
-    const emptyView = <Text style={{ textAlign: 'center' }}>还没有数据</Text>;
+
+    if (empty) {
+      // if (initStatus.loading) {
+      //   //todo
+      //   return <View style={{ textAlign: 'center' }}>骨骼动画</View>;
+      // }
+      if (initStatus.error) {
+        //todo
+        return <Text style={{ textAlign: 'center' }}>发生错误</Text>;
+      }
+      return <Text style={{ textAlign: 'center' }}>还没有数据</Text>;
+    }
+
     return (
       <View>
-        {empty
-          ? emptyView
-          : this.props.doc.createdDocs.map(o => {
-            return (
-              <DocumentListNode
-                key={o.id}
-                title={o.title}
-                bookName={o.book.name}
-                description={o.description}
-                created_at={o.created_at}
-                onclick={this.handleClickNode.bind(this, o)}
-              />
-            );
-          })}
+        {this.props.doc.createdDocs.map(o => {
+          return (
+            <DocumentListNode
+              key={o.id}
+              title={o.title}
+              bookName={o.book.name}
+              description={o.description}
+              created_at={o.created_at}
+              onclick={this.handleClickNode.bind(this, o)}
+            />
+          );
+        })}
         {/* <View className="loading-footer">正在加载...</View>
         <View className="footer">我是有底线的</View> */}
       </View>

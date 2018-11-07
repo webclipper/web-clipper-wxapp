@@ -5,17 +5,13 @@ describe('test page reducer', () => {
   /** 期望 state 初始化正确' */
   it('should return the initial state', () => {
     const initState = {
-      createdDocumentPage: {
-        init: {
-          loading: false,
-          error: null
-        }
+      createdDocumentPageInitStatus: {
+        loading: false,
+        error: null
       },
-      documentDetail: {
-        init: {
-          loading: false,
-          error: null
-        }
+      documentDetailInit: {
+        loading: false,
+        error: null
       }
     };
 

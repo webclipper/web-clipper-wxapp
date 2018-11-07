@@ -1,37 +1,51 @@
+import actionTypes from '../actionTypes';
+
+const { DOC } = actionTypes;
+
 export interface PageStateInterface {
-  createdDocumentPage: {
-    init: {
-      loading: boolean;
-      error: null | Error;
-    };
+  createdDocumentPageInitStatus: {
+    loading: boolean;
+    error: null | Error;
   };
-  documentDetail: {
-    init: {
-      loading: boolean;
-      error: null | Error;
-    };
+  documentDetailInit: {
+    loading: boolean;
+    error: null | Error;
   };
 }
 
 const defaultState: Optional<PageStateInterface> = {
-  createdDocumentPage: {
-    init: {
-      loading: false,
-      error: null
-    }
+  createdDocumentPageInitStatus: {
+    loading: false,
+    error: null
   },
-  documentDetail: {
-    init: {
-      loading: false,
-      error: null
-    }
+  documentDetailInit: {
+    loading: false,
+    error: null
   }
 };
 
 export default function page(state = defaultState, action) {
-  const temp: Optional<PageStateInterface> = {};
+  let temp: Optional<PageStateInterface> = {};
 
   switch (action.type) {
+    case DOC.INIT_CREATED_DOC_LIST_REQUEST: {
+      temp = {
+        createdDocumentPageInitStatus: {
+          loading: true,
+          error: null
+        }
+      };
+      break;
+    }
+    case DOC.INIT_CREATED_DOC_LIST: {
+      temp = {
+        createdDocumentPageInitStatus: {
+          loading: false,
+          error: null
+        }
+      };
+      break;
+    }
     default: {
       break;
     }
