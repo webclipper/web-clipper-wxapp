@@ -2,23 +2,17 @@ import page from '../page';
 /*eslint "no-undefined": 0,*/
 
 describe('test page reducer', () => {
-  /** 期望 state 初始化正确' */
-  it('should return the initial state', () => {
+  it('期望 state 初始化正确', () => {
     const initState = {
-      createdDocumentPage: {
-        init: {
-          loading: false,
-          error: null
-        }
+      createdDocumentPageInitStatus: {
+        loading: false,
+        error: null
       },
-      documentDetail: {
-        init: {
-          loading: false,
-          error: null
-        }
+      documentDetailInit: {
+        loading: false,
+        error: null
       }
     };
-
     expect(page(undefined, {})).toEqual(initState);
   });
 });

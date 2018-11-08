@@ -2,7 +2,7 @@
 /*eslint "taro/this-props-function": 0,*/
 import { ComponentClass } from 'react';
 import Taro, { Component, Config } from '@tarojs/taro';
-import { Text, View } from '@tarojs/components';
+import { View } from '@tarojs/components';
 import { connect } from '@tarojs/redux';
 
 import './index.scss';
@@ -78,24 +78,34 @@ class Index extends Component<IProps, PageState> {
   };
 
   render() {
+    const initStatus = this.props.page.createdDocumentPageInitStatus;
     const empty = this.props.doc.createdDocs.length === 0;
-    const emptyView = <Text style={{ textAlign: 'center' }}>还没有数据</Text>;
+    if (empty && initStatus.loading) {
+      //todo
+      return <View style={{ textAlign: 'center' }}>骨骼动画</View>;
+    }
+    if (empty && initStatus.error) {
+      //todo
+      return <View style={{ textAlign: 'center' }}>加载错误</View>;
+    }
+    if (empty) {
+      //todo
+      return <View style={{ textAlign: 'center' }}>还没有数据</View>;
+    }
     return (
       <View>
-        {empty
-          ? emptyView
-          : this.props.doc.createdDocs.map(o => {
-            return (
-              <DocumentListNode
-                key={o.id}
-                title={o.title}
-                bookName={o.book.name}
-                description={o.description}
-                created_at={o.created_at}
-                onclick={this.handleClickNode.bind(this, o)}
-              />
-            );
-          })}
+        {this.props.doc.createdDocs.map(o => {
+          return (
+            <DocumentListNode
+              key={o.id}
+              title={o.title}
+              bookName={o.book.name}
+              description={o.description}
+              created_at={o.created_at}
+              onclick={this.handleClickNode.bind(this, o)}
+            />
+          );
+        })}
         {/* <View className="loading-footer">正在加载...</View>
         <View className="footer">我是有底线的</View> */}
       </View>
