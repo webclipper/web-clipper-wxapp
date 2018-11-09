@@ -1,21 +1,39 @@
-.article{
-  padding: 20px 40px;
+.login-page {
+  padding: 40px;
 }
-.article-title{
-  font-size: 32px;
-  font-weight: 600;
-  overflow: hidden;
-  display: -webkit-box;
-  font-size:28rpx;
-  color:#000000;
-  line-height: 40rpx;
-  word-break: break-all;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp:2;
-  overflow: hidden;
-  text-overflow:ellipsis;
+.login-page__slogon {
+  text-align: center;
+  height: 400px;
 }
-.article-info{
+.login-page__slogon-main {
+  font-size: 48px;
+  line-height: 64px;
+  font-weight: 500;
+}
+.login-page__slogon-subhead {
   font-size: 28px;
-  color: gray;
+  line-height: 1.5;
+}
+.login-page__input {
+  height: 40px;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid #cbcbcb;
+}
+.login-page__input__focus {
+  border: 2px solid #48c479;
+}
+.login-page__button {
+  margin-top: 32px;
+  background: #25b865;
+  color: white;
+}
+.login-page__other-tool-box {
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 2px solid #cbcbcb;
+  color: #236dd9;
+  text {
+    margin-right: 32px;
+  }
 }

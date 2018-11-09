@@ -28,13 +28,16 @@ export function* navigateTo() {
 export function* logout() {
   while (true) {
     yield take(ROUTER.LOGOUT) as any;
-    const homePath = '/pages/index/index';
-    const currentPath = Taro.getApp().$router.params.path;
-    authService.clear();
-    if (`/${currentPath}` !== homePath) {
-      yield Taro.redirectTo({
-        url: homePath
-      });
+    const pages = Taro.getCurrentPages();
+    if (pages && pages.length > 0) {
+      const currentPage = pages[pages.length - 1];
+      const homePath = '/pages/index/index';
+      authService.clear();
+      if (`/${currentPage.route}` !== homePath) {
+        yield Taro.reLaunch({
+          url: homePath
+        });
+      }
     }
   }
 }
@@ -43,7 +46,7 @@ function* login(action: routerAction.LoginAction) {
   let { playload } = action;
   if (!playload || !playload.token) {
     Taro.showToast({
-      title: '必须输入token',
+      title: 'Token 不允许空',
       icon: 'none'
     });
     return;
@@ -56,7 +59,7 @@ function* login(action: routerAction.LoginAction) {
   } catch (error) {
     if (error.message.indexOf('401') !== -1) {
       Taro.showToast({
-        title: 'token错误',
+        title: '无效的 Token',
         icon: 'none'
       });
     } else {
