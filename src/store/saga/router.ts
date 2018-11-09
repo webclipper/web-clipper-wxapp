@@ -46,7 +46,14 @@ function* login(action: routerAction.LoginAction) {
   let { playload } = action;
   if (!playload || !playload.token) {
     Taro.showToast({
-      title: 'Token 不允许空',
+      title: 'Token 不允许为空',
+      icon: 'none'
+    });
+    return;
+  }
+  if (playload.token.match(/^[a-zA-Z\d]+$/) === null) {
+    Taro.showToast({
+      title: 'Token 的格式错误',
       icon: 'none'
     });
     return;
