@@ -109,7 +109,6 @@ class Index extends Component<IProps, PageState> {
       );
     }
     if (empty && !initStatus.loading && initStatus.startInit) {
-      console.log(initStatus);
       return (
         <View className="info-page">
           <Image src={svg.empty} />

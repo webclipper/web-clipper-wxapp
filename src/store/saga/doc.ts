@@ -16,6 +16,7 @@ function* initCreatedDocListSaga() {
   try {
     const response = yield getUserDocs({ offset: 0 });
     yield put(initCreatedDocList(response.data));
+    Taro.vibrateShort();
   } catch (error) {
     Taro.showToast({
       title: '请求错误',
