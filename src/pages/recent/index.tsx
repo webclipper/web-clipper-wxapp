@@ -81,7 +81,7 @@ class Index extends Component<IProps, PageState> {
   render() {
     const initStatus = this.props.page.createdDocumentPageInitStatus;
     const empty = this.props.doc.createdDocs.length === 0;
-    if ((empty && initStatus.loading) || 1) {
+    if (1 || (empty && initStatus.loading)) {
       const tempArray = new Array(10);
       console.log(tempArray);
       return (
