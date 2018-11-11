@@ -2,7 +2,7 @@ import { DocSerializer } from './../../interface/interface';
 import actionTypes from '../actionTypes';
 import update from 'immutability-helper';
 
-const { DOC } = actionTypes;
+const { DOC, ROUTER } = actionTypes;
 
 export interface DocStateInterface {
   docDetailMap: {
@@ -26,6 +26,9 @@ export default function doc(state = defaultState, action) {
         ...state,
         createdDocs: action.playload.createdDocs
       };
+    }
+    case ROUTER.LOGOUT: {
+      return defaultState;
     }
     case DOC.FETCH_DOCUMENT_DETAIL_SUCCESS: {
       const documentDetail = action.playload.documentDetail;

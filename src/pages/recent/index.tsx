@@ -2,7 +2,7 @@
 /*eslint "taro/this-props-function": 0,*/
 import { ComponentClass } from 'react';
 import Taro, { Component, Config } from '@tarojs/taro';
-import { View } from '@tarojs/components';
+import { View, Image } from '@tarojs/components';
 import { connect } from '@tarojs/redux';
 
 import './index.scss';
@@ -15,6 +15,7 @@ import { navigateTo } from '../../store/actions/router';
 
 import DocumentListNode from '../../components/document';
 import { PageStateInterface } from '../../store/reducers/page';
+import * as svg from '../../static/svg/index';
 
 type PageStateProps = {
   doc: DocStateInterface;
@@ -81,16 +82,40 @@ class Index extends Component<IProps, PageState> {
     const initStatus = this.props.page.createdDocumentPageInitStatus;
     const empty = this.props.doc.createdDocs.length === 0;
     if (empty && initStatus.loading) {
-      //todo
-      return <View style={{ textAlign: 'center' }}>骨骼动画</View>;
+      const tempArray = new Array(10);
+      return (
+        <View className="skeleton__page">
+          <View>
+            {tempArray.map((_, index) => {
+              return (
+                <View key={index} className="skeleton__node">
+                  <View className="skeleton__content title" />
+                  <View className="skeleton__content" />
+                  <View className="skeleton__content" />
+                  <View className="skeleton__content info" />
+                </View>
+              );
+            })}
+          </View>
+        </View>
+      );
     }
     if (empty && initStatus.error) {
-      //todo
-      return <View style={{ textAlign: 'center' }}>加载错误</View>;
+      return (
+        <View className="info-page">
+          <Image src={svg.error} />
+          <View>加载错误</View>
+        </View>
+      );
     }
-    if (empty) {
-      //todo
-      return <View style={{ textAlign: 'center' }}>还没有数据</View>;
+    if (empty && !initStatus.loading && initStatus.startInit) {
+      console.log(initStatus);
+      return (
+        <View className="info-page">
+          <Image src={svg.empty} />
+          <View>还没有文档</View>
+        </View>
+      );
     }
     return (
       <View>

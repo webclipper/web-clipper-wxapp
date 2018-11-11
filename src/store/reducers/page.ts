@@ -1,9 +1,10 @@
 import actionTypes from '../actionTypes';
 
-const { DOC } = actionTypes;
+const { DOC, ROUTER } = actionTypes;
 
 export interface PageStateInterface {
   createdDocumentPageInitStatus: {
+    startInit: boolean;
     loading: boolean;
     error: null | Error;
   };
@@ -15,6 +16,7 @@ export interface PageStateInterface {
 
 const defaultState: Optional<PageStateInterface> = {
   createdDocumentPageInitStatus: {
+    startInit: false,
     loading: false,
     error: null
   },
@@ -27,9 +29,13 @@ const defaultState: Optional<PageStateInterface> = {
 export default function page(state = defaultState, action) {
   let temp: Optional<PageStateInterface> = {};
   switch (action.type) {
+    case ROUTER.LOGOUT: {
+      return defaultState;
+    }
     case DOC.INIT_CREATED_DOC_LIST_REQUEST: {
       temp = {
         createdDocumentPageInitStatus: {
+          startInit: true,
           loading: true,
           error: null
         }
@@ -39,6 +45,7 @@ export default function page(state = defaultState, action) {
     case DOC.INIT_CREATED_DOC_LIST: {
       temp = {
         createdDocumentPageInitStatus: {
+          ...state.createdDocumentPageInitStatus!,
           loading: false,
           error: null
         }
