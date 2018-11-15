@@ -1,5 +1,4 @@
 import { action } from 'ts-action';
-import { UserDetailSerializer } from './../../interface/interface';
 import actionTypes from '../actionTypes';
 
 const { USER } = actionTypes;

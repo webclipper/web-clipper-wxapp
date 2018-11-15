@@ -6,15 +6,14 @@ import { View, Image } from '@tarojs/components';
 import { connect } from '@tarojs/redux';
 
 import './index.scss';
-import { DocStateInterface } from 'src/store/reducers/doc';
 import {
   initCreatedDocListRequest,
-  createdDocumentPulldownRefreshRequest
+  createdDocumentPulldownRefreshRequest,
+  fetchMoreDocRequest
 } from '../../store/actions/doc';
 import { navigateTo } from '../../store/actions/router';
 
 import DocumentListNode from '../../components/document';
-import { PageStateInterface } from '../../store/reducers/page';
 import * as svg from '../../static/svg/index';
 
 type PageStateProps = {
@@ -25,6 +24,7 @@ type PageStateProps = {
 type PageDispatchProps = {
   initCreatedDocListRequest: () => void;
   createdDocumentPulldownRefreshRequest: () => void;
+  fetchMoreDocRequest: () => void;
   navigateTo: (param: Taro.navigateTo.Param) => void;
 };
 
@@ -40,6 +40,9 @@ type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
     page
     }),
   dispatch => ({
+    fetchMoreDocRequest() {
+    dispatch(fetchMoreDocRequest());
+    },
     createdDocumentPulldownRefreshRequest() {
     dispatch(createdDocumentPulldownRefreshRequest());
     },
@@ -75,12 +78,19 @@ class Index extends Component<IProps, PageState> {
   };
 
   onReachBottom = () => {
-    //todo 滚动加载
+    const loading = this.props.page.createdDocumentLoadingMore.loading;
+    const noMoreDoc = this.props.page.createdDocumentLoadingMore.end;
+    if (noMoreDoc || loading) {
+      return;
+    }
+    this.props.fetchMoreDocRequest();
   };
 
   render() {
     const initStatus = this.props.page.createdDocumentPageInitStatus;
     const empty = this.props.doc.createdDocs.length === 0;
+    const loadingMore = this.props.page.createdDocumentLoadingMore.loading;
+    const noMoreDoc = this.props.page.createdDocumentLoadingMore.end;
     if (empty && initStatus.loading) {
       const tempArray = new Array(10);
       return (
@@ -130,8 +140,8 @@ class Index extends Component<IProps, PageState> {
             />
           );
         })}
-        {/* <View className="loading-footer">正在加载...</View>
-        <View className="footer">我是有底线的</View> */}
+        {loadingMore && <View className="loading-footer">正在加载...</View>}
+        {noMoreDoc && <View className="footer">我是有底线的</View>}
       </View>
     );
   }

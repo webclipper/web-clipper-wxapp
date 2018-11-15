@@ -4,7 +4,6 @@ import { ComponentClass } from 'react';
 import Taro, { Component, Config } from '@tarojs/taro';
 import { connect } from '@tarojs/redux';
 import './detail.scss';
-import { DocStateInterface } from 'src/store/reducers/doc';
 import { fetchDocumentDetailRequest } from '../../store/actions/doc';
 import { navigateTo } from '../../store/actions/router';
 import Markdown from '../../components/markdown';

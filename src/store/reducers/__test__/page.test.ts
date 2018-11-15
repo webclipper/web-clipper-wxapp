@@ -12,6 +12,11 @@ describe('test page reducer', () => {
       documentDetailInit: {
         loading: false,
         error: null
+      },
+      createdDocumentLoadingMore: {
+        end: false,
+        loading: false,
+        error: null
       }
     };
     expect(page(undefined, {})).toEqual(initState);

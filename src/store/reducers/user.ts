@@ -1,11 +1,6 @@
-import { UserDetailSerializer } from '../../interface/interface';
 import actionTypes from '../actionTypes';
 
 const { USER } = actionTypes;
-
-export interface UserStateInterface {
-  userInfo?: UserDetailSerializer;
-}
 
 const defaultState: UserStateInterface = {};
 

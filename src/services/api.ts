@@ -1,6 +1,5 @@
 import Taro from '@tarojs/taro';
 import AuthService from './authService';
-import { DocSerializer, UserDetailSerializer } from "src/interface/interface"; // eslint-disable-line
 
 const requsetWithToken = async (param: Taro.request.Param<any> | string) => {
   const host = 'https://www.yuque.com/api/v2/';

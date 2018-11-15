@@ -2,18 +2,6 @@ import actionTypes from '../actionTypes';
 
 const { DOC, ROUTER } = actionTypes;
 
-export interface PageStateInterface {
-  createdDocumentPageInitStatus: {
-    startInit: boolean;
-    loading: boolean;
-    error: null | Error;
-  };
-  documentDetailInit: {
-    loading: boolean;
-    error: null | Error;
-  };
-}
-
 const defaultState: Optional<PageStateInterface> = {
   createdDocumentPageInitStatus: {
     startInit: false,
@@ -21,6 +9,11 @@ const defaultState: Optional<PageStateInterface> = {
     error: null
   },
   documentDetailInit: {
+    loading: false,
+    error: null
+  },
+  createdDocumentLoadingMore: {
+    end: false,
     loading: false,
     error: null
   }
@@ -42,10 +35,50 @@ export default function page(state = defaultState, action) {
       };
       break;
     }
+    case DOC.INIT_CREATED_DOC_LIST_ERROR: {
+      temp = {
+        createdDocumentPageInitStatus: {
+          startInit: true,
+          loading: false,
+          error: 'we'
+        }
+      };
+      break;
+    }
     case DOC.INIT_CREATED_DOC_LIST: {
       temp = {
         createdDocumentPageInitStatus: {
-          ...state.createdDocumentPageInitStatus!,
+          startInit: true,
+          loading: false,
+          error: null
+        }
+      };
+      break;
+    }
+    case DOC.FETCH_MORE_DOC_REQUEST: {
+      temp = {
+        createdDocumentLoadingMore: {
+          end: false,
+          loading: true,
+          error: null
+        }
+      };
+      break;
+    }
+    case DOC.FETCH_MORE_DOC_SUCCESS: {
+      temp = {
+        createdDocumentLoadingMore: {
+          end: false,
+          loading: false,
+          error: null
+        }
+      };
+      break;
+    }
+    case DOC.FETCH_MORE_DOC_END: {
+      temp = {
+        createdDocumentLoadingMore: {
+          end: true,
           loading: false,
           error: null
         }
