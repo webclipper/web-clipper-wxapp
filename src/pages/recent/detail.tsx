@@ -32,6 +32,7 @@ type PageOwnProps = {};
 type PageState = {
   id: number;
   repoId: number;
+  showToolBar: boolean;
 };
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
@@ -62,7 +63,8 @@ class Index extends Component<IProps, PageState> {
     const repoId = Number.parseInt(this.$router.params.repo_id, 10);
     this.state = {
       id,
-      repoId
+      repoId,
+      showToolBar: true
     };
   }
 
@@ -87,19 +89,33 @@ class Index extends Component<IProps, PageState> {
     });
   };
 
+  onPageScroll = () => {
+    this.setState({
+      showToolBar: false
+    });
+  };
+
+  toggleToolBar = () => {
+    this.setState({
+      showToolBar: !this.state.showToolBar
+    });
+  };
+
   render() {
     const data = this.props.doc.docDetailMap[this.state.id];
     return (
       <View className="document-detail">
         <Text className="document-detail_title">{data.title}</Text>
-        <View className="document-detail_content">
+        <View className="document-detail_content" onClick={this.toggleToolBar}>
           <Markdown md={data && data.body.replace(/<a name.*a>/g, '')} />
         </View>
-        <View className="document-detail-tool">
-          <View className="document-detail-tool-icon">
-            <Image src={deleteIcon} onClick={this.handleDelete} />
+        {this.state.showToolBar && (
+          <View className="document-detail-tool">
+            <View className="document-detail-tool-icon">
+              <Image src={deleteIcon} onClick={this.handleDelete} />
+            </View>
           </View>
-        </View>
+        )}
       </View>
     );
   }
