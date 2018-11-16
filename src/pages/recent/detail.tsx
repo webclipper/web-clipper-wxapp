@@ -4,17 +4,26 @@ import { ComponentClass } from 'react';
 import Taro, { Component, Config } from '@tarojs/taro';
 import { connect } from '@tarojs/redux';
 import './detail.scss';
-import { fetchDocumentDetailRequest } from '../../store/actions/doc';
+import {
+  fetchDocumentDetailRequest,
+  deleteDocumentRequest
+} from '../../store/actions/doc';
 import { navigateTo } from '../../store/actions/router';
 import Markdown from '../../components/markdown';
-import { Text, View } from '@tarojs/components';
+import { Text, View, Image } from '@tarojs/components';
+import { deleteIcon } from '../../static/svg/index';
 
 type PageStateProps = {
   doc: DocStateInterface;
 };
 
 type PageDispatchProps = {
-  fetchDocumentDetailRequest: (redpId: number, id: number) => void;
+  deleteDocumentRequest: (
+    { repoId, id }: { repoId: number; id: number }
+  ) => void;
+  fetchDocumentDetailRequest: (
+    { repoId, id }: { repoId: number; id: number }
+  ) => void;
   navigateTo: (param: Taro.navigateTo.Param) => void;
 };
 
@@ -32,8 +41,11 @@ type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
     doc
     }),
   dispatch => ({
-    fetchDocumentDetailRequest(redpId: number, id: number) {
-    dispatch(fetchDocumentDetailRequest(redpId, id));
+    deleteDocumentRequest({ repoId, id }: { repoId: number; id: number }) {
+    dispatch(deleteDocumentRequest({ repoId, id }));
+    },
+    fetchDocumentDetailRequest({ repoId, id }: { repoId: number; id: number }) {
+    dispatch(fetchDocumentDetailRequest({ repoId, id }));
     },
     navigateTo(param: Taro.navigateTo.Param) {
     dispatch(navigateTo(param));
@@ -46,8 +58,8 @@ class Index extends Component<IProps, PageState> {
   };
   constructor() {
     super();
-    const id = this.$router.params.id;
-    const repoId = this.$router.params.repo_id;
+    const id = Number.parseInt(this.$router.params.id, 10);
+    const repoId = Number.parseInt(this.$router.params.repo_id, 10);
     this.state = {
       id,
       repoId
@@ -55,7 +67,24 @@ class Index extends Component<IProps, PageState> {
   }
 
   componentDidMount = () => {
-    this.props.fetchDocumentDetailRequest(this.state.repoId, this.state.id);
+    this.props.fetchDocumentDetailRequest({
+      id: this.state.id,
+      repoId: this.state.repoId
+    });
+  };
+
+  handleDelete = () => {
+    Taro.showModal({
+      title: '提示',
+      content: '是否要删除本文档'
+    }).then(re => {
+      if (re.confirm) {
+        this.props.deleteDocumentRequest({
+          id: this.state.id,
+          repoId: this.state.repoId
+        });
+      }
+    });
   };
 
   render() {
@@ -65,6 +94,11 @@ class Index extends Component<IProps, PageState> {
         <Text className="document-detail_title">{data.title}</Text>
         <View className="document-detail_content">
           <Markdown md={data && data.body.replace(/<a name.*a>/g, '')} />
+        </View>
+        <View className="document-detail-tool">
+          <View className="document-detail-tool-icon">
+            <Image src={deleteIcon} onClick={this.handleDelete} />
+          </View>
         </View>
       </View>
     );

@@ -1,12 +1,21 @@
 import { isType } from 'ts-action';
-import { takeLatest, put, take, fork, select } from 'redux-saga/effects';
+import {
+  takeLatest,
+  put,
+  take,
+  fork,
+  select,
+  takeEvery
+} from 'redux-saga/effects';
 import actionTypes from '../actionTypes';
-import { getUserDocs, getDocDetail } from '../../services/api';
+import { getUserDocs, getDocDetail, deleteDocument } from '../../services/api';
 import {
   initCreatedDocList,
   fetchDocumentDetailSuccess,
   fetchDocumentDetailError,
   fetchDocumentDetailRequest,
+  deleteDocumentRequest,
+  deleteDocumentSuccess,
   initCreatedDocListError,
   fetchMoreDocSuccess,
   fetchMoreDocEnd
@@ -20,7 +29,7 @@ export function* fetchDocumentDetailRequestHandler() {
     try {
       const action = yield take(DOC.FETCH_DOCUMENT_DETAIL_REQUEST);
       if (isType(action, fetchDocumentDetailRequest)) {
-        const { id, repoId } = action.playload;
+        const { id, repoId } = action.payload;
         const detail = yield getDocDetail(repoId, id);
         yield put(fetchDocumentDetailSuccess(detail.data));
       }
@@ -69,8 +78,25 @@ function* fetchMoreDocRequestSaga() {
     }
   });
 }
+function* deleteDocumentRequestSafa() {
+  yield takeEvery(DOC.DELETE_DOCUMENT_REQUEST, function* (action) {
+    if (isType(action, deleteDocumentRequest)) {
+      try {
+        yield deleteDocument(action.payload.repoId, action.payload.id);
+        yield put(deleteDocumentSuccess({ id: action.payload.id }));
+        Taro.navigateBack();
+      } catch (error) {
+        Taro.showToast({
+          icon: 'none',
+          title: '删除失败'
+        });
+      }
+    }
+  });
+}
 
 export function* docRootSaga() {
+  yield fork(deleteDocumentRequestSafa);
   yield fork(initCreatedDocListSages);
   yield fork(fetchMoreDocRequestSaga);
   yield fork(createdDocumentPulldownRefreshRequestSage);

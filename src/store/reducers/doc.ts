@@ -1,7 +1,11 @@
 import actionTypes from '../actionTypes';
 import update from 'immutability-helper';
 import { isType } from 'ts-action';
-import { fetchMoreDocSuccess, initCreatedDocList } from '../actions/doc';
+import {
+  fetchMoreDocSuccess,
+  initCreatedDocList,
+  deleteDocumentSuccess
+} from '../actions/doc';
 
 const { DOC, ROUTER } = actionTypes;
 
@@ -54,6 +58,14 @@ export default function doc(state = defaultState, action) {
     return {
       ...state,
       createdDocs: action.payload.createdDocs
+    };
+  }
+  if (isType(action, deleteDocumentSuccess)) {
+    return {
+      ...state,
+      createdDocs: state.createdDocs.filter(o => {
+        return o.id !== action.payload.id;
+      })
     };
   }
   switch (action.type) {

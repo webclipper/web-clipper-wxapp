@@ -55,4 +55,12 @@ const getDocDetail = (
 ): Promise<Taro.request.Promised<any>> => {
   return requsetWithToken(`repos/${repoId}/docs/${docuemntId}?raw=1`);
 };
-export { getUserDocs, getUser, getDocDetail };
+
+const deleteDocument = (repoId: number, docuemntId: number): Promise<void> => {
+  return requsetWithToken({
+    method: 'DELETE',
+    url: `repos/${repoId}/docs/${docuemntId}`
+  });
+};
+
+export { getUserDocs, getUser, getDocDetail, deleteDocument };

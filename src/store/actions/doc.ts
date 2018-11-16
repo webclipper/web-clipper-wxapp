@@ -24,14 +24,21 @@ export const fetchMoreDocRequest = action(DOC.FETCH_MORE_DOC_REQUEST);
 /** 没有更多文档了 */
 export const fetchMoreDocEnd = action(DOC.FETCH_MORE_DOC_END);
 
+/** 删除文档请求 */
+export const deleteDocumentRequest = action(
+  DOC.DELETE_DOCUMENT_REQUEST,
+  payload<{ repoId: number; id: number }>()
+);
+
+/** 删除文档成功 */
+export const deleteDocumentSuccess = action(
+  DOC.DELETE_DOCUMENT_SUCCESS,
+  payload<{ id: number }>()
+);
+
 export const fetchDocumentDetailRequest = action(
   DOC.FETCH_DOCUMENT_DETAIL_REQUEST,
-  (repoId: number, id: number) => ({
-    playload: {
-      id,
-      repoId
-    }
-  })
+  payload<{ repoId: number; id: number }>()
 );
 
 export const fetchDocumentDetailSuccess = documentDetail => {

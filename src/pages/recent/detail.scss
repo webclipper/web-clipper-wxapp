@@ -8,3 +8,24 @@
 .document-detail_content {
   margin-top: 50px;
 }
+.document-detail-tool {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100px;
+  background: #f9f9f9;
+  color: white;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.document-detail-tool-icon {
+  height: 100px;
+  width: 100px;
+  padding: 20px;
+  image {
+    width: 60px;
+    height: 60px;
+  }
+}
