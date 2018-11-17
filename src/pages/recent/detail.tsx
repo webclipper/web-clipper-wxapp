@@ -9,7 +9,6 @@ import {
   deleteDocumentRequest
 } from '../../store/actions/doc';
 import { navigateTo } from '../../store/actions/router';
-// import Markdown from '../../components/markdown';
 import { Text, View, Image } from '@tarojs/components';
 import { deleteIcon } from '../../static/svg/index';
 
@@ -112,7 +111,6 @@ class Index extends Component<IProps, PageState> {
       <View className="document-detail">
         <Text className="document-detail_title">{data.data.title}</Text>
         <View className="document-detail_content" onClick={this.toggleToolBar}>
-          {/* <Markdown md={data && data.data.body.replace(/<a name.*a>/g, '')} /> */}
           <wemark md={data.data.body} link highlight type="wemark" />
         </View>
         {this.state.showToolBar && !this.props.page.documentDetailInit.loading && (
