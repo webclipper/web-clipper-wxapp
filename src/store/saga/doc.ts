@@ -10,13 +10,13 @@ import {
 import actionTypes from '../actionTypes';
 import { getUserDocs, getDocDetail, deleteDocument } from '../../services/api';
 import {
-  initCreatedDocList,
+  initCreatedDocListSuccess,
+  initCreatedDocListError,
   fetchDocumentDetailSuccess,
   fetchDocumentDetailError,
   fetchDocumentDetailRequest,
   deleteDocumentRequest,
   deleteDocumentSuccess,
-  initCreatedDocListError,
   fetchMoreDocSuccess,
   fetchMoreDocEnd
 } from './../actions/doc';
@@ -31,7 +31,7 @@ export function* fetchDocumentDetailRequestHandler() {
       if (isType(action, fetchDocumentDetailRequest)) {
         const { id, repoId } = action.payload;
         const detail = yield getDocDetail(repoId, id);
-        yield put(fetchDocumentDetailSuccess(detail.data));
+        yield put(fetchDocumentDetailSuccess({ documentDetail: detail }));
       }
     } catch (error) {
       yield put(fetchDocumentDetailError({ error: error }));
@@ -43,9 +43,9 @@ function* initCreatedDocListSages() {
   yield takeLatest(DOC.INIT_CREATED_DOC_LIST_REQUEST, function* () {
     try {
       const response = yield getUserDocs({ offset: 0 });
-      yield put(initCreatedDocList({ createdDocs: response.data }));
+      yield put(initCreatedDocListSuccess({ createdDocs: response.data }));
     } catch (error) {
-      yield put(initCreatedDocListError());
+      yield put(initCreatedDocListError({ error }));
     }
   });
 }
@@ -54,7 +54,7 @@ function* createdDocumentPulldownRefreshRequestSage() {
   yield takeLatest(DOC.CREATED_DOCUMENT_PULL_DOWN_REFRESH_REQUEST, function* () {
     try {
       const response = yield getUserDocs({ offset: 0 });
-      yield put(initCreatedDocList({ createdDocs: response.data }));
+      yield put(initCreatedDocListSuccess({ createdDocs: response.data }));
       Taro.vibrateShort();
     } catch (error) {
       Taro.showToast({

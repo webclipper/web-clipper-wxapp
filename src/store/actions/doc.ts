@@ -6,8 +6,14 @@ const { DOC } = actionTypes;
 export const initCreatedDocListRequest = action(
   DOC.INIT_CREATED_DOC_LIST_REQUEST
 );
-export const initCreatedDocListError = action(DOC.INIT_CREATED_DOC_LIST_ERROR);
-
+export const initCreatedDocListSuccess = action(
+  DOC.INIT_CREATED_DOC_LIST_SUCCESS,
+  payload<{ createdDocs: DocSerializer[] }>()
+);
+export const initCreatedDocListError = action(
+  DOC.INIT_CREATED_DOC_LIST_ERROR,
+  payload<{ error: Error }>()
+);
 /** 最新文档页面的下拉刷新 */
 export const createdDocumentPulldownRefreshRequest = action(
   DOC.CREATED_DOCUMENT_PULL_DOWN_REFRESH_REQUEST
@@ -41,21 +47,12 @@ export const fetchDocumentDetailRequest = action(
   payload<{ repoId: number; id: number }>()
 );
 
-export const fetchDocumentDetailSuccess = documentDetail => {
-  return {
-    type: DOC.FETCH_DOCUMENT_DETAIL_SUCCESS,
-    playload: {
-      documentDetail
-    }
-  };
-};
+export const fetchDocumentDetailSuccess = action(
+  DOC.FETCH_DOCUMENT_DETAIL_SUCCESS,
+  payload<{ documentDetail: DocumentDetailSerializer }>()
+);
 
 export const fetchDocumentDetailError = action(
   DOC.FETCH_DOCUMENT_DETAIL_ERROR,
   payload<{ error: Error }>()
-);
-
-export const initCreatedDocList = action(
-  DOC.INIT_CREATED_DOC_LIST,
-  payload<{ createdDocs: DocSerializer[] }>()
 );

@@ -42,10 +42,7 @@ interface PageStateInterface {
 
 interface DocStateInterface {
   docDetailMap: {
-    [key: string]: {
-      title: string;
-      body: string;
-    };
+    [key: string]: DocumentDetailSerializer;
   };
   createdDocs: DocSerializer[];
 }
@@ -77,6 +74,24 @@ interface DocSerializer {
       name: string;
       avatar_url: string;
     };
+  };
+}
+interface DocumentDetailSerializer {
+  abilities: {
+    destroy: boolean;
+    update: boolean;
+  };
+  data: {
+    id: number;
+    book: {
+      id: number;
+      items_count: number;
+      namespace: string;
+    };
+    slug: string;
+    body: string;
+    title: string;
+    word_count: number;
   };
 }
 

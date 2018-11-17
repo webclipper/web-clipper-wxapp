@@ -1,4 +1,13 @@
 import actionTypes from '../actionTypes';
+import { isType } from 'ts-action';
+import {
+  initCreatedDocListError,
+  initCreatedDocListSuccess,
+  initCreatedDocListRequest,
+  fetchDocumentDetailRequest,
+  fetchDocumentDetailSuccess,
+  fetchDocumentDetailError
+} from '../actions/doc';
 
 const { DOC, ROUTER } = actionTypes;
 
@@ -19,41 +28,71 @@ const defaultState: Optional<PageStateInterface> = {
   }
 };
 
-export default function page(state = defaultState, action) {
+export default function page(
+  state = defaultState,
+  action
+): Optional<PageStateInterface> {
+  if (isType(action, initCreatedDocListRequest)) {
+    return {
+      ...state,
+      createdDocumentPageInitStatus: {
+        startInit: true,
+        loading: true,
+        error: null
+      }
+    };
+  }
+  if (isType(action, initCreatedDocListSuccess)) {
+    return {
+      ...state,
+      createdDocumentPageInitStatus: {
+        startInit: true,
+        loading: false,
+        error: null
+      }
+    };
+  }
+  if (isType(action, initCreatedDocListError)) {
+    return {
+      ...state,
+      createdDocumentPageInitStatus: {
+        startInit: true,
+        loading: false,
+        error: action.payload.error
+      }
+    };
+  }
+  if (isType(action, fetchDocumentDetailRequest)) {
+    return {
+      ...state,
+      documentDetailInit: {
+        loading: true,
+        error: null
+      }
+    };
+  }
+  if (isType(action, fetchDocumentDetailSuccess)) {
+    return {
+      ...state,
+      documentDetailInit: {
+        loading: false,
+        error: null
+      }
+    };
+  }
+  if (isType(action, fetchDocumentDetailError)) {
+    return {
+      ...state,
+      documentDetailInit: {
+        loading: false,
+        error: action.payload.error
+      }
+    };
+  }
   let temp: Optional<PageStateInterface> = {};
   switch (action.type) {
     case ROUTER.LOGOUT: {
       return defaultState;
-    }
-    case DOC.INIT_CREATED_DOC_LIST_REQUEST: {
-      temp = {
-        createdDocumentPageInitStatus: {
-          startInit: true,
-          loading: true,
-          error: null
-        }
-      };
-      break;
-    }
-    case DOC.INIT_CREATED_DOC_LIST_ERROR: {
-      temp = {
-        createdDocumentPageInitStatus: {
-          startInit: true,
-          loading: false,
-          error: 'we'
-        }
-      };
-      break;
-    }
-    case DOC.INIT_CREATED_DOC_LIST: {
-      temp = {
-        createdDocumentPageInitStatus: {
-          startInit: true,
-          loading: false,
-          error: null
-        }
-      };
-      break;
     }
     case DOC.FETCH_MORE_DOC_REQUEST: {
       temp = {

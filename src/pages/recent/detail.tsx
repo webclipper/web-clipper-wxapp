@@ -15,6 +15,7 @@ import { deleteIcon } from '../../static/svg/index';
 
 type PageStateProps = {
   doc: DocStateInterface;
+  page: PageStateInterface;
 };
 
 type PageDispatchProps = {
@@ -38,8 +39,9 @@ type PageState = {
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
 
 @connect(
-  ({ doc }) => ({
-    doc
+  ({ doc, page }) => ({
+    doc,
+    page
     }),
   dispatch => ({
     deleteDocumentRequest({ repoId, id }: { repoId: number; id: number }) {
@@ -105,11 +107,11 @@ class Index extends Component<IProps, PageState> {
     const data = this.props.doc.docDetailMap[this.state.id];
     return (
       <View className="document-detail">
-        <Text className="document-detail_title">{data.title}</Text>
+        <Text className="document-detail_title">{data.data.title}</Text>
         <View className="document-detail_content" onClick={this.toggleToolBar}>
-          <Markdown md={data && data.body.replace(/<a name.*a>/g, '')} />
+          <Markdown md={data && data.data.body.replace(/<a name.*a>/g, '')} />
         </View>
-        {this.state.showToolBar && (
+        {this.state.showToolBar && !this.props.page.documentDetailInit.loading && (
           <View className="document-detail-tool">
             <View className="document-detail-tool-icon">
               <Image src={deleteIcon} onClick={this.handleDelete} />

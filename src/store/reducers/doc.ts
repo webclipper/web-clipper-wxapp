@@ -3,11 +3,12 @@ import update from 'immutability-helper';
 import { isType } from 'ts-action';
 import {
   fetchMoreDocSuccess,
-  initCreatedDocList,
+  initCreatedDocListSuccess,
+  fetchDocumentDetailSuccess,
   deleteDocumentSuccess
 } from '../actions/doc';
 
-const { DOC, ROUTER } = actionTypes;
+const { ROUTER } = actionTypes;
 
 const defaultState: DocStateInterface = {
   createdDocs: [],
@@ -54,7 +55,7 @@ export default function doc(state = defaultState, action) {
       createdDocs: mergeCreatedDocList(state.createdDocs, action.payload.docs)
     };
   }
-  if (isType(action, initCreatedDocList)) {
+  if (isType(action, initCreatedDocListSuccess)) {
     return {
       ...state,
       createdDocs: action.payload.createdDocs
@@ -68,24 +69,21 @@ export default function doc(state = defaultState, action) {
       })
     };
   }
+  if (isType(action, fetchDocumentDetailSuccess)) {
+    const documentDetail = action.payload.documentDetail;
+    const docDetailMap = update(state.docDetailMap, {
+      [documentDetail.data.id]: {
+        $set: documentDetail
+      }
+    });
+    return {
+      ...state,
+      docDetailMap
+    };
+  }
   switch (action.type) {
     case ROUTER.LOGOUT: {
       return defaultState;
-    }
-    case DOC.FETCH_DOCUMENT_DETAIL_SUCCESS: {
-      const documentDetail = action.playload.documentDetail;
-      const docDetailMap = update(state.docDetailMap, {
-        [documentDetail.id]: {
-          $set: {
-            title: documentDetail.title,
-            body: documentDetail.body
-          }
-        }
-      });
-      return {
-        ...state,
-        docDetailMap
-      };
     }
     default: {
       return state;
