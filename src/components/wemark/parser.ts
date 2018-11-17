@@ -186,10 +186,11 @@ function parse(md, options) {
       env.pop();
     }
     if (blockToken.type === "tr_open") {
-      return {
+      tmp = {
         type: "table_tr",
         content: []
       };
+      return tmp;
     }
     if (blockToken.type === "th_open") {
       tmp.content.push({
