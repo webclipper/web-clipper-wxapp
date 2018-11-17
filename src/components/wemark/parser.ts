@@ -1,18 +1,18 @@
 /* eslint-disable */
-let Remarkable = require("remarkable");
+import Remarkable from "remarkable";
+import prism from "./prism";
+
 let parser = new Remarkable({
   html: true
 });
-let prism = require("./prism");
 
 function parse(md, options) {
-  if (!options) options = {};
   let tokens = parser.parse(md, {});
 
   // markdwon渲染列表
-  let renderList = [];
+  let renderList: any[] = [];
 
-  let env = [];
+  let env: any[] = [];
   // 记录当前list深度
   let listLevel = 0;
   // 记录第N级ol的顺序
@@ -21,20 +21,17 @@ function parse(md, options) {
 
   // 获取inline内容
   let getInlineContent = function(inlineToken) {
-    let ret = [];
+    let ret: any[] = [];
     let env;
     let tokenData = {};
 
     if (inlineToken.type === "htmlblock") {
-      // 匹配video
-      // 兼容video[src]和video > source[src]
       let videoRegExp = /<video.*?src\s*=\s*['"]*([^\s^'^"]+).*?(poster\s*=\s*['"]*([^\s^'^"]+).*?)?(?:\/\s*>|<\/video>)/g;
-
       let match;
       let html = inlineToken.content.replace(/\n/g, "");
       while ((match = videoRegExp.exec(html))) {
         if (match[1]) {
-          let retParam = {
+          let retParam: any = {
             type: "video",
             src: match[1]
           };
@@ -47,7 +44,6 @@ function parse(md, options) {
         }
       }
     } else {
-      // console.log(inlineToken);
       inlineToken.children &&
         inlineToken.children.forEach(function(token, index) {
           if (["text", "code"].indexOf(token.type) > -1) {
@@ -60,12 +56,6 @@ function parse(md, options) {
             tokenData = {};
           } else if (token.type === "del_open") {
             env = "deleted";
-          } else if (token.type === "softbreak") {
-            // todo:处理li的问题
-            /* ret.push({
-						type: 'text',
-						content: ' '
-					}); */
           } else if (token.type === "hardbreak") {
             ret.push({
               type: "text",
@@ -75,13 +65,6 @@ function parse(md, options) {
             env = "strong";
           } else if (token.type === "em_open") {
             env = "em";
-          } else if (token.type === "link_open") {
-            if (options.link) {
-              env = "link";
-              tokenData = {
-                href: token.href
-              };
-            }
           } else if (token.type === "image") {
             ret.push({
               type: token.type,
@@ -97,20 +80,20 @@ function parse(md, options) {
   let getBlockContent = function(blockToken, index, firstInLi) {
     if (blockToken.type === "htmlblock") {
       return getInlineContent(blockToken);
-    } else if (blockToken.type === "heading_open") {
+    }
+    if (blockToken.type === "heading_open") {
       return {
         type: "h" + blockToken.hLevel,
         content: getInlineContent(tokens[index + 1])
       };
-    } else if (blockToken.type === "paragraph_open") {
+    }
+    if (blockToken.type === "paragraph_open") {
       let prefix = "";
       if (env.length) {
         prefix = env.join("_") + "_";
       }
-
       var content = getInlineContent(tokens[index + 1]);
 
-      // 处理ol前的数字
       if (env[env.length - 1] === "li" && env[env.length - 2] === "ol") {
         let prefix = "　";
         if (firstInLi) {
@@ -126,7 +109,8 @@ function parse(md, options) {
         type: prefix + "p",
         content: content
       };
-    } else if (blockToken.type === "fence" || blockToken.type === "code") {
+    }
+    if (blockToken.type === "fence" || blockToken.type === "code") {
       content = blockToken.content;
       let highlight = false;
       if (
@@ -137,17 +121,19 @@ function parse(md, options) {
         content = prism.tokenize(content, prism.languages[blockToken.params]);
         highlight = true;
       }
-
-      // flatten nested tokens in html
       if (blockToken.params === "html") {
-        const flattenTokens = (tokensArr, result = [], parentType = "") => {
+        const flattenTokens = (
+          tokensArr,
+          result: any = [],
+          parentType = ""
+        ) => {
           if (tokensArr.constructor === Array) {
             tokensArr.forEach(el => {
               if (typeof el === "object") {
                 el.type = parentType + " wemark_inline_code_" + el.type;
                 flattenTokens(el.content, result, el.type);
               } else {
-                const obj = {};
+                const obj: any = {};
                 obj.type = parentType + " wemark_inline_code_";
                 obj.content = el;
                 result.push(obj);
@@ -161,43 +147,51 @@ function parse(md, options) {
         };
         content = flattenTokens(content);
       }
-
       return {
         type: "code",
         highlight: highlight,
         content: content
       };
-    } else if (blockToken.type === "bullet_list_open") {
+    }
+    if (blockToken.type === "bullet_list_open") {
       env.push("ul");
       listLevel++;
-    } else if (blockToken.type === "ordered_list_open") {
+    }
+    if (blockToken.type === "ordered_list_open") {
       env.push("ol");
       listLevel++;
-    } else if (blockToken.type === "list_item_open") {
+    }
+    if (blockToken.type === "list_item_open") {
       env.push("li");
       if (env[env.length - 2] === "ol") {
         orderNum[listLevel - 1]++;
       }
-    } else if (blockToken.type === "list_item_close") {
+    }
+    if (blockToken.type === "list_item_close") {
       env.pop();
-    } else if (blockToken.type === "bullet_list_close") {
+    }
+    if (blockToken.type === "bullet_list_close") {
       env.pop();
       listLevel--;
-    } else if (blockToken.type === "ordered_list_close") {
+    }
+    if (blockToken.type === "ordered_list_close") {
       env.pop();
       listLevel--;
       orderNum[listLevel] = 0;
-    } else if (blockToken.type === "blockquote_open") {
+    }
+    if (blockToken.type === "blockquote_open") {
       env.push("blockquote");
-    } else if (blockToken.type === "blockquote_close") {
+    }
+    if (blockToken.type === "blockquote_close") {
       env.pop();
-    } else if (blockToken.type === "tr_open") {
-      tmp = {
+    }
+    if (blockToken.type === "tr_open") {
+      return {
         type: "table_tr",
         content: []
       };
-      return tmp;
-    } else if (blockToken.type === "th_open") {
+    }
+    if (blockToken.type === "th_open") {
       tmp.content.push({
         type: "table_th",
         content: getInlineContent(tokens[index + 1])
@@ -206,7 +200,8 @@ function parse(md, options) {
           })
           .join("")
       });
-    } else if (blockToken.type === "td_open") {
+    }
+    if (blockToken.type === "td_open") {
       tmp.content.push({
         type: "table_td",
         content: getInlineContent(tokens[index + 1])
@@ -241,10 +236,7 @@ function parse(md, options) {
       renderList.push(block);
     });
   });
-
   return renderList;
 }
 
-module.exports = {
-  parse: parse
-};
+export { parse };
