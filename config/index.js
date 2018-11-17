@@ -4,12 +4,18 @@ const config = {
   designWidth: 750,
   sourceRoot: 'src',
   outputRoot: 'dist',
+  copy: {
+    patterns: [
+      {
+        from: 'src/components/wemark', // wemark 所在位置
+        to: 'dist/components/wemark'
+      }
+    ]
+  },
   plugins: {
     babel: {
       sourceMap: true,
-      presets: [
-        'env'
-      ],
+      presets: ['env'],
       plugins: [
         'transform-class-properties',
         'transform-decorators-legacy',
@@ -36,20 +42,13 @@ const config = {
         strictNullChecks: true,
         target: 'es6'
       },
-      include: [
-        'src/**/*'
-      ],
-      exclude: [
-        'node_modules'
-      ],
+      include: ['src/**/*'],
+      exclude: ['node_modules'],
       compileOnSave: false
     }
   },
-  defineConstants: {
-  },
-  weapp: {
-
-  },
+  defineConstants: {},
+  weapp: {},
   h5: {
     publicPath: '/',
     staticDirectory: 'static',
@@ -63,7 +62,7 @@ const config = {
   }
 };
 
-module.exports = function (merge) {
+module.exports = function(merge) {
   if (process.env.NODE_ENV === 'development') {
     return merge({}, config, require('./dev'));
   }

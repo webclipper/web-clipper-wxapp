@@ -9,7 +9,7 @@ import {
   deleteDocumentRequest
 } from '../../store/actions/doc';
 import { navigateTo } from '../../store/actions/router';
-import Markdown from '../../components/markdown';
+// import Markdown from '../../components/markdown';
 import { Text, View, Image } from '@tarojs/components';
 import { deleteIcon } from '../../static/svg/index';
 
@@ -57,7 +57,10 @@ type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
 )
 class Index extends Component<IProps, PageState> {
   config: Config = {
-    navigationBarTitleText: '语雀剪藏'
+    navigationBarTitleText: '语雀剪藏',
+    usingComponents: {
+      wemark: '../../components/wemark/wemark'
+    }
   };
   constructor() {
     super();
@@ -109,7 +112,8 @@ class Index extends Component<IProps, PageState> {
       <View className="document-detail">
         <Text className="document-detail_title">{data.data.title}</Text>
         <View className="document-detail_content" onClick={this.toggleToolBar}>
-          <Markdown md={data && data.data.body.replace(/<a name.*a>/g, '')} />
+          {/* <Markdown md={data && data.data.body.replace(/<a name.*a>/g, '')} /> */}
+          <wemark md={data.data.body} link highlight type="wemark" />
         </View>
         {this.state.showToolBar && !this.props.page.documentDetailInit.loading && (
           <View className="document-detail-tool">

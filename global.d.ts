@@ -13,6 +13,7 @@ declare module '*.styl';
 declare namespace JSX {
   interface IntrinsicElements {
     block: any;
+    wemark: any;
   }
 }
 type Optional<T> = { [P in keyof T]?: T[P] };
