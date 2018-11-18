@@ -1,4 +1,3 @@
-import { action } from 'ts-action';
 import { isType } from 'ts-action';
 import {
   takeLatest,

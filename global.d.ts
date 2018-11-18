@@ -37,7 +37,7 @@ interface PageStateInterface {
   };
   documentDetailInit: {
     loading: boolean;
-    error: null | Error;
+    error: null | any;
   };
 }
 

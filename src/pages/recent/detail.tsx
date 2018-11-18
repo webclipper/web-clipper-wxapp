@@ -10,7 +10,12 @@ import {
 } from '../../store/actions/doc';
 import { navigateTo, detailRouterBack } from '../../store/actions/router';
 import { Text, View, Image } from '@tarojs/components';
-import { deleteIcon, back, notFound } from '../../static/svg/index';
+import {
+  deleteIcon,
+  back,
+  notFound,
+  networkError
+} from '../../static/svg/index';
 
 type PageStateProps = {
   doc: DocStateInterface;
@@ -112,7 +117,7 @@ class Index extends Component<IProps, PageState> {
     const loading = this.props.page.documentDetailInit.loading;
     const error = this.props.page.documentDetailInit.error;
 
-    if (error) {
+    if (error && error.statusCode === 404) {
       return (
         <View className="document-detail__error">
           <Image src={notFound} />
@@ -120,7 +125,17 @@ class Index extends Component<IProps, PageState> {
         </View>
       );
     }
-
+    if (error) {
+      return (
+        <View className="document-detail__error">
+          <Image src={networkError} />
+          <View style={{ color: 'black', marginBottom: '10px' }}>
+            获取文档失败
+          </View>
+          <View onClick={this.handlePageBack}>返回文档列表</View>
+        </View>
+      );
+    }
     return (
       <View className="document-detail">
         <Text className="document-detail_title">{data.data.title}</Text>
