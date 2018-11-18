@@ -3,37 +3,40 @@
 import { ComponentClass } from 'react';
 import Taro, { Component, Config } from '@tarojs/taro';
 import { View, Button, Input, Text } from '@tarojs/components';
-import { login, switchTab } from '../../store/actions/router';
+import { login, switchTab, scanEnter } from '../../store/actions/router';
 import { connect } from '@tarojs/redux';
 
 import './index.scss';
 
 type PageStateProps = {
-  counter: {
-    count: number;
-  };
+  user: UserStateInterface;
 };
 type PageDispatchProps = {
   switchTab: (url: string) => void;
-  login: (token: string) => void;
+  login: ({ token, q }: { token: string; q: string }) => void;
+  scanEnter: ({ q: string }) => void;
 };
 
 type PageOwnProps = {};
 
 type PageState = {
   token: string;
+  q: string;
   inputClassName: string;
 };
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
 
 @connect(
-  ({ counter }) => ({
-    counter
+  ({ user }) => ({
+    user
     }),
   dispatch => ({
-    login(token) {
-    dispatch(login(token));
+    login({ token, q }) {
+    dispatch(login({ token, q }));
+    },
+    scanEnter({ q }) {
+    dispatch(scanEnter({ q }));
     },
     switchTab(url) {
     dispatch(switchTab(url));
@@ -52,6 +55,7 @@ class Index extends Component<IProps, PageState> {
     super();
     this.state = {
       token: '',
+      q: '',
       inputClassName: this.inputDefaultClassName
     };
   }
@@ -68,7 +72,6 @@ class Index extends Component<IProps, PageState> {
       inputClassName: this.inputDefaultClassName
     });
   };
-
   handleInput = (e: any) => {
     this.setState({
       token: e.detail.value
@@ -76,19 +79,54 @@ class Index extends Component<IProps, PageState> {
   };
 
   handleSwitchTab = () => {
-    this.props.login(this.state.token);
+    this.props.login({
+      token: this.state.token,
+      q: this.state.q
+    });
   };
+
   handleScanQrcode = () => {
     Taro.scanCode({
       scanType: ['qrCode']
     }).then(result => {
-      this.props.login(result.result);
+      const scanResult: string = result.result || '';
+      console.log(scanResult);
+      if (
+        scanResult.startsWith('https://yuquewebclipper.diamondyuan.com/pro/')
+      ) {
+        this.props.scanEnter({
+          q: scanResult
+        });
+        return;
+      }
+      this.props.login({
+        token: scanResult,
+        q: this.state.q
+      });
     });
   };
+
   handleReadClipboard = () => {
     Taro.getClipboardData().then(result => {
-      this.props.login(result.data);
+      this.props.login({
+        token: result.data,
+        q: this.state.q
+      });
     });
+  };
+
+  componentDidMount = () => {
+    if (this.$router.params.q) {
+      const q = decodeURIComponent(this.$router.params.q);
+      this.setState(
+        {
+          q
+        },
+        () => {
+          this.props.scanEnter({ q });
+        }
+      );
+    }
   };
 
   render() {

@@ -5,6 +5,9 @@ const COUNTER = actionTypeReset('COUNTER', {
 });
 
 const ROUTER = actionTypeReset('ROUTER', {
+  DETAIL_ROUTER_BACK: '',
+  SCAN_ENTER: '',
+  REDIRECT_TO: '',
   NAVIGATE_TO: '',
   LOGOUT: '',
   SWITCH_TAB: '',

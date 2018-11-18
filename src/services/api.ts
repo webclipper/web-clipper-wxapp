@@ -31,9 +31,9 @@ const requsetWithToken = async (param: Taro.request.Param<any> | string) => {
     if (result.statusCode === 401) {
       AuthService.logout();
     }
-    throw new Error(JSON.stringify(result.data));
+    throw result;
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
 

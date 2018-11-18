@@ -8,9 +8,9 @@ import {
   fetchDocumentDetailRequest,
   deleteDocumentRequest
 } from '../../store/actions/doc';
-import { navigateTo } from '../../store/actions/router';
+import { navigateTo, detailRouterBack } from '../../store/actions/router';
 import { Text, View, Image } from '@tarojs/components';
-import { deleteIcon } from '../../static/svg/index';
+import { deleteIcon, back, notFound } from '../../static/svg/index';
 
 type PageStateProps = {
   doc: DocStateInterface;
@@ -18,6 +18,7 @@ type PageStateProps = {
 };
 
 type PageDispatchProps = {
+  detailRouterBack: () => void;
   deleteDocumentRequest: (
     { repoId, id }: { repoId: number; id: number }
   ) => void;
@@ -45,6 +46,9 @@ type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
   dispatch => ({
     deleteDocumentRequest({ repoId, id }: { repoId: number; id: number }) {
     dispatch(deleteDocumentRequest({ repoId, id }));
+    },
+    detailRouterBack() {
+    dispatch(detailRouterBack());
     },
     fetchDocumentDetailRequest({ repoId, id }: { repoId: number; id: number }) {
     dispatch(fetchDocumentDetailRequest({ repoId, id }));
@@ -93,10 +97,8 @@ class Index extends Component<IProps, PageState> {
     });
   };
 
-  onPageScroll = () => {
-    this.setState({
-      showToolBar: false
-    });
+  handlePageBack = () => {
+    this.props.detailRouterBack();
   };
 
   toggleToolBar = () => {
@@ -107,14 +109,29 @@ class Index extends Component<IProps, PageState> {
 
   render() {
     const data = this.props.doc.docDetailMap[this.state.id];
+    const loading = this.props.page.documentDetailInit.loading;
+    const error = this.props.page.documentDetailInit.error;
+
+    if (error) {
+      return (
+        <View className="document-detail__error">
+          <Image src={notFound} />
+          <View onClick={this.handlePageBack}>返回文档列表</View>
+        </View>
+      );
+    }
+
     return (
       <View className="document-detail">
         <Text className="document-detail_title">{data.data.title}</Text>
         <View className="document-detail_content" onClick={this.toggleToolBar}>
           <wemark md={data.data.body} link highlight type="wemark" />
         </View>
-        {this.state.showToolBar && !this.props.page.documentDetailInit.loading && (
+        {this.state.showToolBar && !loading && (
           <View className="document-detail-tool">
+            <View className="document-detail-tool-icon">
+              <Image src={back} onClick={this.handlePageBack} />
+            </View>
             <View className="document-detail-tool-icon">
               <Image src={deleteIcon} onClick={this.handleDelete} />
             </View>

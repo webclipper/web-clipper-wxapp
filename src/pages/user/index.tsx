@@ -7,7 +7,6 @@ import './index.scss';
 import { logout } from '../../store/actions/router';
 import { View, Button } from '@tarojs/components';
 import Avatar from '../../components/avatar';
-import { UserStateInterface } from '../../store/reducers/user';
 import { refreshUserInfoRequest } from '../../store/actions/user';
 
 type PageStateProps = {

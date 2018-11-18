@@ -1,3 +1,4 @@
+import { action } from 'ts-action';
 import { isType } from 'ts-action';
 import {
   takeLatest,
@@ -19,7 +20,9 @@ import {
   deleteDocumentSuccess,
   fetchMoreDocSuccess,
   fetchMoreDocEnd
-} from './../actions/doc';
+} from '../actions/doc';
+
+import { detailRouterBack } from '../actions/router';
 import Taro from '@tarojs/taro';
 
 const { DOC } = actionTypes;
@@ -84,7 +87,7 @@ function* deleteDocumentRequestSafa() {
       try {
         yield deleteDocument(action.payload.repoId, action.payload.id);
         yield put(deleteDocumentSuccess({ id: action.payload.id }));
-        Taro.navigateBack();
+        yield put(detailRouterBack());
       } catch (error) {
         Taro.showToast({
           icon: 'none',

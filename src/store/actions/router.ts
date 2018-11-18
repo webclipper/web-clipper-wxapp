@@ -1,4 +1,5 @@
 import actionTypes from '../actionTypes';
+import { action, payload } from 'ts-action';
 
 const { ROUTER } = actionTypes;
 
@@ -18,24 +19,18 @@ export const navigateTo = (param: Taro.navigateTo.Param) => {
   };
 };
 
-export const logout = () => {
-  return {
-    type: ROUTER.LOGOUT
-  };
-};
+export const logout = action(ROUTER.LOGOUT);
 
-export interface LoginAction {
-  type: string;
-  playload: {
-    token: string;
-  };
-}
+export const detailRouterBack = action(ROUTER.DETAIL_ROUTER_BACK);
 
-export const login = (token: string) => {
-  return {
-    type: ROUTER.LOGIN,
-    playload: {
-      token
-    }
-  };
-};
+export const scanEnter = action(ROUTER.SCAN_ENTER, payload<{ q: string }>());
+
+export const redirectTo = action(
+  ROUTER.REDIRECT_TO,
+  payload<{ param: Taro.redirectTo.Param }>()
+);
+
+export const login = action(
+  ROUTER.LOGIN,
+  payload<{ token: string; q: string }>()
+);
