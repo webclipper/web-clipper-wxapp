@@ -160,7 +160,7 @@ export function* scanEnterSaga() {
   });
 }
 
-export function* routerRootSaga() {
+export default function* () {
   yield fork(switchTab);
   yield fork(logout);
   yield fork(scanEnterSaga);

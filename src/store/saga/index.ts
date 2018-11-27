@@ -1,13 +1,11 @@
 import { fork } from 'redux-saga/effects';
-
-import { routerRootSaga } from './router';
-import { docRootSaga, fetchDocumentDetailRequestHandler } from './doc';
-import { refreshUserInfoRequest } from './user';
+import routerSagas from './router';
+import docSagas from './doc';
+import userSagas from './user';
 
 export default function* rootSaga() {
   console.log('hello saga');
-  yield fork(routerRootSaga);
-  yield fork(docRootSaga);
-  yield fork(fetchDocumentDetailRequestHandler);
-  yield fork(refreshUserInfoRequest);
+  yield fork(routerSagas);
+  yield fork(docSagas);
+  yield fork(userSagas);
 }

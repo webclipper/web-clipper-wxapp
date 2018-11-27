@@ -97,9 +97,10 @@ function* deleteDocumentRequestSaga() {
   });
 }
 
-export function* docRootSaga() {
+export default function* () {
   yield fork(deleteDocumentRequestSaga);
   yield fork(initCreatedDocListSages);
   yield fork(fetchMoreDocRequestSaga);
   yield fork(createdDocumentPulldownRefreshRequestSage);
+  yield fork(fetchDocumentDetailRequestHandler);
 }
