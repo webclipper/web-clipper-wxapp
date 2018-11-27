@@ -1,14 +1,14 @@
-/*eslint "no-unused-vars": ["error", { "varsIgnorePattern": "Taro|minus|goToTheEnd" }],*/
 /*eslint "taro/this-props-function": 0,*/
 import { ComponentClass } from 'react';
 import Taro, { Component, Config } from '@tarojs/taro';
 import { connect } from '@tarojs/redux';
 import './detail.scss';
+import { bindActionCreators } from 'redux';
 import {
   fetchDocumentDetailRequest,
   deleteDocumentRequest
 } from '../../store/actions/doc';
-import { navigateTo, detailRouterBack } from '../../store/actions/router';
+import { detailRouterBack } from '../../store/actions/router';
 import { Text, View, Image } from '@tarojs/components';
 import {
   deleteIcon,
@@ -17,58 +17,39 @@ import {
   networkError
 } from '../../static/svg/index';
 
-type PageStateProps = {
-  doc: DocStateInterface;
-  page: PageStateInterface;
+const mapStateToProps = ({ doc, page }: GlobalStateInterface) => {
+  return {
+    doc,
+    page
+  };
 };
-
-type PageDispatchProps = {
-  detailRouterBack: () => void;
-  deleteDocumentRequest: (
-    { repoId, id }: { repoId: number; id: number }
-  ) => void;
-  fetchDocumentDetailRequest: (
-    { repoId, id }: { repoId: number; id: number }
-  ) => void;
-  navigateTo: (param: Taro.navigateTo.Param) => void;
-};
-
-type PageOwnProps = {};
-
 type PageState = {
   id: number;
   repoId: number;
   showToolBar: boolean;
 };
-
+const useActions = {
+  deleteDocumentRequest,
+  detailRouterBack,
+  fetchDocumentDetailRequest
+};
+type PageStateProps = ReturnType<typeof mapStateToProps>;
+type PageDispatchProps = typeof useActions;
+type PageOwnProps = {};
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
-
+const mapActionToProps = dispatch =>
+  bindActionCreators<PageDispatchProps, PageDispatchProps>(
+    useActions,
+    dispatch
+  );
 @connect(
-  ({ doc, page }) => ({
-    doc,
-    page
-    }),
-  dispatch => ({
-    deleteDocumentRequest({ repoId, id }: { repoId: number; id: number }) {
-    dispatch(deleteDocumentRequest({ repoId, id }));
-    },
-    detailRouterBack() {
-    dispatch(detailRouterBack());
-    },
-    fetchDocumentDetailRequest({ repoId, id }: { repoId: number; id: number }) {
-    dispatch(fetchDocumentDetailRequest({ repoId, id }));
-    },
-    navigateTo(param: Taro.navigateTo.Param) {
-    dispatch(navigateTo(param));
-    }
-    })
+  mapStateToProps,
+  mapActionToProps
 )
 class Index extends Component<IProps, PageState> {
   config: Config = {
     navigationBarTitleText: '语雀剪藏',
-    usingComponents: {
-      wemark: '../../components/wemark/wemark'
-    }
+    usingComponents: { wemark: '../../components/wemark/wemark' }
   };
   constructor() {
     super();
@@ -107,9 +88,7 @@ class Index extends Component<IProps, PageState> {
   };
 
   toggleToolBar = () => {
-    this.setState({
-      showToolBar: !this.state.showToolBar
-    });
+    this.setState({ showToolBar: !this.state.showToolBar });
   };
 
   render() {

@@ -1,10 +1,9 @@
-/*eslint "no-unused-vars": ["error", { "varsIgnorePattern": "Taro|minus|goToTheEnd" }],*/
 /*eslint "taro/this-props-function": 0,*/
 import { ComponentClass } from 'react';
+import { bindActionCreators } from 'redux';
 import Taro, { Component, Config } from '@tarojs/taro';
 import { View, Image } from '@tarojs/components';
 import { connect } from '@tarojs/redux';
-
 import './index.scss';
 import {
   initCreatedDocListRequest,
@@ -12,47 +11,35 @@ import {
   fetchMoreDocRequest
 } from '../../store/actions/doc';
 import { navigateTo } from '../../store/actions/router';
-
 import DocumentListNode from '../../components/document';
 import * as svg from '../../static/svg/index';
 
-type PageStateProps = {
-  doc: DocStateInterface;
-  page: PageStateInterface;
-};
-
-type PageDispatchProps = {
-  initCreatedDocListRequest: () => void;
-  createdDocumentPulldownRefreshRequest: () => void;
-  fetchMoreDocRequest: () => void;
-  navigateTo: (param: Taro.navigateTo.Param) => void;
-};
-
-type PageOwnProps = {};
-
-type PageState = {};
-
-type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
-
-@connect(
-  ({ doc, page }) => ({
+const mapStateToProps = ({ doc, page }: GlobalStateInterface) => {
+  return {
     doc,
     page
-    }),
-  dispatch => ({
-    fetchMoreDocRequest() {
-    dispatch(fetchMoreDocRequest());
-    },
-    createdDocumentPulldownRefreshRequest() {
-    dispatch(createdDocumentPulldownRefreshRequest());
-    },
-    initCreatedDocListRequest() {
-    dispatch(initCreatedDocListRequest());
-    },
-    navigateTo(param: Taro.navigateTo.Param) {
-    dispatch(navigateTo(param));
-    }
-    })
+  };
+};
+type PageState = {};
+const useActions = {
+  navigateTo,
+  initCreatedDocListRequest,
+  createdDocumentPulldownRefreshRequest,
+  fetchMoreDocRequest
+};
+
+type PageStateProps = ReturnType<typeof mapStateToProps>;
+type PageDispatchProps = typeof useActions;
+type PageOwnProps = {};
+type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
+const mapActionToProps = dispatch =>
+  bindActionCreators<PageDispatchProps, PageDispatchProps>(
+    useActions,
+    dispatch
+  );
+@connect(
+  mapStateToProps,
+  mapActionToProps
 )
 class Index extends Component<IProps, PageState> {
   config: Config = {

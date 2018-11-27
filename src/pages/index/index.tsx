@@ -1,52 +1,41 @@
-/*eslint "no-unused-vars": ["error", { "varsIgnorePattern": "Taro|minus|goToTheEnd" }],*/
 /*eslint "taro/this-props-function": 0,*/
 import { ComponentClass } from 'react';
 import Taro, { Component, Config } from '@tarojs/taro';
 import { View, Button, Input, Text } from '@tarojs/components';
 import { login, switchTab, scanEnter } from '../../store/actions/router';
 import { connect } from '@tarojs/redux';
+import { bindActionCreators } from 'redux';
 
 import './index.scss';
 
-type PageStateProps = {
-  user: UserStateInterface;
+const mapStateToProps = ({ user }: GlobalStateInterface) => {
+  return { user };
 };
-type PageDispatchProps = {
-  switchTab: (url: string) => void;
-  login: ({ token, q }: { token: string; q: string }) => void;
-  scanEnter: ({ q: string }) => void;
-};
-
-type PageOwnProps = {};
-
 type PageState = {
   token: string;
   q: string;
   inputClassName: string;
 };
-
+const useActions = {
+  login,
+  switchTab,
+  scanEnter
+};
+type PageStateProps = ReturnType<typeof mapStateToProps>;
+type PageDispatchProps = typeof useActions;
+type PageOwnProps = {};
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
-
+const mapActionToProps = dispatch =>
+  bindActionCreators<PageDispatchProps, PageDispatchProps>(
+    useActions,
+    dispatch
+  );
 @connect(
-  ({ user }) => ({
-    user
-    }),
-  dispatch => ({
-    login({ token, q }) {
-    dispatch(login({ token, q }));
-    },
-    scanEnter({ q }) {
-    dispatch(scanEnter({ q }));
-    },
-    switchTab(url) {
-    dispatch(switchTab(url));
-    }
-    })
+  mapStateToProps,
+  mapActionToProps
 )
 class Index extends Component<IProps, PageState> {
-  config: Config = {
-    navigationBarTitleText: '语雀剪藏'
-  };
+  config: Config = { navigationBarTitleText: '语雀剪藏' };
 
   private inputDefaultClassName = 'login-page__input';
   private inputFocusClassName = 'login-page__input__focus';
@@ -68,14 +57,10 @@ class Index extends Component<IProps, PageState> {
     });
   };
   handleInputBlur = () => {
-    this.setState({
-      inputClassName: this.inputDefaultClassName
-    });
+    this.setState({ inputClassName: this.inputDefaultClassName });
   };
   handleInput = (e: any) => {
-    this.setState({
-      token: e.detail.value
-    });
+    this.setState({ token: e.detail.value });
   };
 
   handleSwitchTab = () => {
@@ -86,17 +71,13 @@ class Index extends Component<IProps, PageState> {
   };
 
   handleScanQrcode = () => {
-    Taro.scanCode({
-      scanType: ['qrCode']
-    }).then(result => {
+    Taro.scanCode({ scanType: ['qrCode'] }).then(result => {
       const scanResult: string = result.result || '';
       console.log(scanResult);
       if (
         scanResult.startsWith('https://yuquewebclipper.diamondyuan.com/pro/')
       ) {
-        this.props.scanEnter({
-          q: scanResult
-        });
+        this.props.scanEnter({ q: scanResult });
         return;
       }
       this.props.login({
@@ -119,9 +100,7 @@ class Index extends Component<IProps, PageState> {
     if (this.$router.params.q) {
       const q = decodeURIComponent(this.$router.params.q);
       this.setState(
-        {
-          q
-        },
+        { q },
         () => {
           this.props.scanEnter({ q });
         }

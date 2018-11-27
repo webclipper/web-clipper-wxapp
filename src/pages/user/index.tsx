@@ -1,44 +1,40 @@
-/*eslint "no-unused-vars": ["error", { "varsIgnorePattern": "Taro|minus|goToTheEnd" }],*/
 /*eslint "taro/this-props-function": 0,*/
 import { ComponentClass } from 'react';
 import Taro, { Component, Config } from '@tarojs/taro';
 import { connect } from '@tarojs/redux';
 import './index.scss';
+import { bindActionCreators } from 'redux';
 import { logout } from '../../store/actions/router';
 import { View, Button } from '@tarojs/components';
 import Avatar from '../../components/avatar';
 import { refreshUserInfoRequest } from '../../store/actions/user';
 
-type PageStateProps = {
-  user: UserStateInterface;
+const useActions = { refreshUserInfoRequest, logout };
+
+const mapStateToProps = ({ user }: GlobalStateInterface) => {
+  return { user };
+};
+type PageState = {
+  id: number;
+  repoId: number;
+  showToolBar: boolean;
 };
 
-type PageDispatchProps = {
-  logout: () => void;
-  refreshUserInfoRequest: () => void;
-};
-
+type PageStateProps = ReturnType<typeof mapStateToProps>;
+type PageDispatchProps = typeof useActions;
 type PageOwnProps = {};
-
-type PageState = {};
-
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
-
+const mapActionToProps = dispatch =>
+  bindActionCreators<PageDispatchProps, PageDispatchProps>(
+    useActions,
+    dispatch
+  );
 @connect(
-  ({ user }) => ({ user }),
-  dispatch => ({
-    logout() {
-    dispatch(logout());
-    },
-    refreshUserInfoRequest() {
-    dispatch(refreshUserInfoRequest());
-    }
-    })
+  mapStateToProps,
+  mapActionToProps
 )
 class Index extends Component<IProps, PageState> {
-  config: Config = {
-    navigationBarTitleText: '语雀剪藏'
-  };
+  config: Config = { navigationBarTitleText: '语雀剪藏' };
 
   componentDidMount = () => {
     if (!this.props.user.userInfo) {
@@ -47,7 +43,7 @@ class Index extends Component<IProps, PageState> {
   };
 
   logout = () => {
-    this.props.logout(); /** eslint--disableline */
+    this.props.logout();
   };
 
   render() {
