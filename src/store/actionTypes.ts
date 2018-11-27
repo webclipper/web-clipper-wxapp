@@ -42,6 +42,13 @@ const DOC = actionTypeReset('DOC', {
   CREATED_DOCUMENT_PULL_DOWN_REFRESH_REQUEST: ''
 });
 
+const BOOK = actionTypeReset('REPO', {
+  /** 获取用户创建的仓库列表 */
+  FETCH_USER_BOOKS_REQUEST: '',
+  /** 获取用户创建的仓库列表的结果 */
+  FETCH_USER_BOOKS: ''
+});
+
 function actionTypeReset<T>(nameSpace, object: T): T {
   Object.keys(object).forEach(key => {
     object[key] = `${nameSpace}/${key}`;
@@ -50,6 +57,7 @@ function actionTypeReset<T>(nameSpace, object: T): T {
 }
 
 export default {
+  BOOK,
   COUNTER,
   ROUTER,
   USER,

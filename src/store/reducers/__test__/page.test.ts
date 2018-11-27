@@ -17,6 +17,10 @@ describe('test page reducer', () => {
         end: false,
         loading: false,
         error: null
+      },
+      userBooksPageStatus: {
+        loading: false,
+        error: null
       }
     };
     expect(page(undefined, {})).toEqual(initState);

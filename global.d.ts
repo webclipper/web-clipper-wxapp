@@ -22,6 +22,7 @@ interface GlobalStateInterface {
   user: UserStateInterface;
   doc: DocStateInterface;
   page: PageStateInterface;
+  book: BookStateInterface;
 }
 
 interface PageStateInterface {
@@ -39,6 +40,10 @@ interface PageStateInterface {
     loading: boolean;
     error: null | any;
   };
+  userBooksPageStatus: {
+    loading: boolean;
+    error: null | Error;
+  };
 }
 
 interface DocStateInterface {
@@ -49,6 +54,10 @@ interface DocStateInterface {
 }
 interface UserStateInterface {
   userInfo?: UserDetailSerializer;
+}
+
+interface BookStateInterface {
+  userBooks: BookSerializer[];
 }
 
 /**
@@ -104,4 +113,14 @@ interface UserDetailSerializer {
   login: string;
   name: string;
   avatar_url: string;
+}
+
+interface BookSerializer {
+  id: number;
+  slug: string;
+  type: string;
+  name: string;
+  namespace: string;
+  user_id: string;
+  public: number;
 }

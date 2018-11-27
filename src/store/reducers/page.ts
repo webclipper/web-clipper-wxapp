@@ -8,6 +8,7 @@ import {
   fetchDocumentDetailSuccess,
   fetchDocumentDetailError
 } from '../actions/doc';
+import { fetchUserBooks, fetchUserBooksRequest } from '../actions/book';
 
 const { DOC, ROUTER } = actionTypes;
 
@@ -25,6 +26,10 @@ const defaultState: Optional<PageStateInterface> = {
     end: false,
     loading: false,
     error: null
+  },
+  userBooksPageStatus: {
+    loading: false,
+    error: null
   }
 };
 
@@ -32,6 +37,33 @@ export default function page(
   state = defaultState,
   action
 ): Optional<PageStateInterface> {
+  if (isType(action, fetchUserBooks)) {
+    if (action.error && action.payload instanceof Error) {
+      return {
+        ...state,
+        userBooksPageStatus: {
+          loading: false,
+          error: action.payload
+        }
+      };
+    }
+    return {
+      ...state,
+      userBooksPageStatus: {
+        loading: false,
+        error: null
+      }
+    };
+  }
+  if (isType(action, fetchUserBooksRequest)) {
+    return {
+      ...state,
+      userBooksPageStatus: {
+        loading: true,
+        error: null
+      }
+    };
+  }
   if (isType(action, initCreatedDocListRequest)) {
     return {
       ...state,
