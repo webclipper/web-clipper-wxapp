@@ -26,6 +26,9 @@ const requsetWithToken = async (param: Taro.request.Param<any> | string) => {
   try {
     const result = await Taro.request(requestParam);
     if (result.statusCode === 200) {
+      if (typeof result.data === 'string') {
+        result.data = JSON.parse(result.data.replace(/\s+/g, ' '));
+      }
       return result.data;
     }
     if (result.statusCode === 401) {
