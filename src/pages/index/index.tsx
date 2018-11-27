@@ -99,12 +99,9 @@ class Index extends Component<IProps, PageState> {
   componentDidMount = () => {
     if (this.$router.params.q) {
       const q = decodeURIComponent(this.$router.params.q);
-      this.setState(
-        { q },
-        () => {
-          this.props.scanEnter({ q });
-        }
-      );
+      this.setState({ q }, () => {
+        this.props.scanEnter({ q });
+      });
     }
   };
 

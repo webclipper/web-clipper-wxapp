@@ -6787,11 +6787,6 @@ parse5@4.0.0:
   version "4.0.0"
   resolved "http://registry.npm.taobao.org/parse5/download/parse5-4.0.0.tgz#6d78656e3da8d78b4ec0b906f7c08ef1dfe3f608"
 
-parse5@^5.1.0:
-  version "5.1.0"
-  resolved "http://registry.npm.taobao.org/parse5/download/parse5-5.1.0.tgz#c59341c9723f414c452975564c7c00a68d58acd2"
-  integrity sha1-xZNByXI/QUxFKXVWTHwApo1YrNI=
-
 parseurl@~1.3.2:
   version "1.3.2"
   resolved "http://registry.npm.taobao.org/parseurl/download/parseurl-1.3.2.tgz#fc289d4ed8993119460c156253262cdc8de65bf3"
@@ -7368,10 +7363,6 @@ redux-logger@^3.0.6:
 redux-saga@^0.16.2:
   version "0.16.2"
   resolved "http://registry.npm.taobao.org/redux-saga/download/redux-saga-0.16.2.tgz#993662e86bc945d8509ac2b8daba3a8c615cc971"
-
-redux-thunk@^2.3.0:
-  version "2.3.0"
-  resolved "http://registry.npm.taobao.org/redux-thunk/download/redux-thunk-2.3.0.tgz#51c2c19a185ed5187aaa9a2d08b666d0d6467622"
 
 redux@^4.0.0:
   version "4.0.1"

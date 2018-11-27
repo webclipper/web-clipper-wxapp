@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import Taro, { Component, Config } from '@tarojs/taro';
 import { View, Image } from '@tarojs/components';
 import { connect } from '@tarojs/redux';
-import './index.scss';
 import {
   initCreatedDocListRequest,
   createdDocumentPulldownRefreshRequest,
@@ -13,6 +12,7 @@ import {
 import { navigateTo } from '../../store/actions/router';
 import DocumentListNode from '../../components/document';
 import * as svg from '../../static/svg/index';
+import './index.scss';
 
 const mapStateToProps = ({ doc, page }: GlobalStateInterface) => {
   return {
